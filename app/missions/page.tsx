@@ -3,10 +3,9 @@
 import Link from "next/link";
 import { useAuthStore, useGameStore } from "@/store";
 import { Card, Badge } from "@/components/shared";
-import levels from "@/data/levels.json";
+import { scenarios } from "@/data/scenarios";
 import { Shield, Lock, Unlock, Star } from "lucide-react";
 import { useEffect } from "react";
-import type { Level } from "@/lib/types";
 
 const difficultyLabel: Record<
   number,
@@ -15,19 +14,6 @@ const difficultyLabel: Record<
   1: { text: "Лёгкий", variant: "success" },
   2: { text: "Средний", variant: "warning" },
   3: { text: "Сложный", variant: "error" },
-};
-
-const typeIcons: Record<string, string> = {
-  phishing: "🎣",
-  malware: "🦠",
-  social: "🎭",
-  network: "🌐",
-  crypto: "🔐",
-  law: "⚖️",
-  data: "💾",
-  mobile: "📱",
-  iot: "🏠",
-  password: "🔑",
 };
 
 export default function MissionsPage() {
@@ -63,14 +49,14 @@ export default function MissionsPage() {
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-muted font-mono">Прогресс</span>
           <span className="text-sm font-mono text-accent">
-            {completedCount} / {levels.length}
+            {completedCount} / {scenarios.length}
           </span>
         </div>
         <div className="w-full h-2 bg-card-border rounded-full overflow-hidden">
           <div
             className="h-full bg-accent rounded-full transition-all duration-500"
             style={{
-              width: `${(completedCount / levels.length) * 100}%`,
+              width: `${(completedCount / scenarios.length) * 100}%`,
             }}
           />
         </div>
@@ -81,16 +67,16 @@ export default function MissionsPage() {
       </div>
 
       <div className="space-y-3">
-        {(levels as Level[]).map((level) => {
-          const completed = isLevelCompleted(level.id);
+        {scenarios.map((scenario) => {
+          const completed = isLevelCompleted(scenario.id);
           const isLocked =
-            !completed && level.id > completedCount + 1;
-          const diff = difficultyLabel[level.difficulty];
+            !completed && scenario.id > completedCount + 1;
+          const diff = difficultyLabel[scenario.difficulty];
 
           return (
             <Link
-              key={level.id}
-              href={isLocked ? "#" : `/missions/${level.id}`}
+              key={scenario.id}
+              href={isLocked ? "#" : `/missions/${scenario.id}`}
               className={`block ${
                 isLocked ? "pointer-events-none opacity-50" : ""
               }`}
@@ -106,14 +92,14 @@ export default function MissionsPage() {
                     ) : isLocked ? (
                       <Lock size={20} className="text-muted" />
                     ) : (
-                      <span>{typeIcons[level.type] || "🎯"}</span>
+                      <span>{scenario.icon}</span>
                     )}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs text-muted font-mono">
-                        #{level.id}
+                        #{scenario.id}
                       </span>
                       <Badge variant={diff.variant}>{diff.text}</Badge>
                       {completed && (
@@ -124,10 +110,10 @@ export default function MissionsPage() {
                       )}
                     </div>
                     <h3 className="font-semibold text-sm md:text-base truncate">
-                      {level.title}
+                      {scenario.title}
                     </h3>
                     <p className="text-muted text-xs mt-1 line-clamp-2">
-                      {level.description}
+                      {scenario.description}
                     </p>
                   </div>
                 </div>

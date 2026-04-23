@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gamepad2, Map, User } from "lucide-react";
+import { Gamepad2, Map, User, BookOpen, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/missions", label: "Миссии", icon: Gamepad2 },
   { href: "/map", label: "Карта", icon: Map },
+  { href: "/glossary", label: "Словарь", icon: BookOpen },
   { href: "/profile", label: "Профиль", icon: User },
+  { href: "/about", label: "Инфо", icon: Info },
 ];
 
 export default function BottomNav() {
@@ -59,8 +61,8 @@ export default function BottomNav() {
                     : "text-muted hover:text-foreground"
                 )}
               >
-                <Icon size={20} />
-                <span>{item.label}</span>
+                <Icon size={18} />
+                <span className="text-[10px]">{item.label}</span>
               </Link>
             );
           })}

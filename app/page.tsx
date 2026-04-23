@@ -65,6 +65,10 @@ export default function HomePage() {
           <span className="w-1 h-1 bg-muted rounded-full" />
           <span>Беларусь 🇧🇾</span>
         </div>
+
+        <p className="mt-6 text-accent text-xs font-mono font-semibold">
+          #КиберПраво: твой щит в сети
+        </p>
       </div>
     </div>
   );
