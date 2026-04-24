@@ -3,7 +3,7 @@
 import { useAuthStore, useGameStore } from "@/store";
 import { Card, Badge, ProgressBar } from "@/components/shared";
 import { ranks, getRankByXP, getNextRank, getXPToNextRank } from "@/lib/ranks";
-import levels from "@/data/levels.json";
+import { scenarios } from "@/data/scenarios";
 import { useEffect } from "react";
 import {
   User,
@@ -46,7 +46,7 @@ export default function ProfilePage() {
   const nextRank = getNextRank(xp);
   const xpToNext = getXPToNextRank(xp);
   const completedCount = progress.filter((e) => e.completed).length;
-  const totalLevels = levels.length;
+  const totalLevels = scenarios.length;
 
   const handleLogout = async () => {
     await signOut();
@@ -179,7 +179,7 @@ export default function ProfilePage() {
             {progress
               .filter((e) => e.completed)
               .map((e) => {
-                const level = levels.find((l) => l.id === e.level_id);
+                const level = scenarios.find((s) => s.id === e.level_id);
                 return (
                   <Badge key={e.level_id} variant="success">
                     #{e.level_id} {level?.title || `Миссия ${e.level_id}`}

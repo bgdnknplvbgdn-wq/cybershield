@@ -73,9 +73,9 @@ export const useGameStore = create<GameState>((set, get) => ({
 
     if (existing) return;
 
-    const levels = (await import("@/data/levels.json")).default;
-    const level = levels.find((l: { id: number; difficulty: number }) => l.id === levelId);
-    const earnedXP = level ? xpReward[level.difficulty as 1 | 2 | 3] || 10 : 10;
+    const { scenarios } = await import("@/data/scenarios");
+    const scenario = scenarios.find((s) => s.id === levelId);
+    const earnedXP = scenario ? xpReward[scenario.difficulty] || 10 : 10;
 
     await supabase.from("progress").insert({
       user_id: profile.id,

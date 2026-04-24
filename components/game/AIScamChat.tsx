@@ -209,7 +209,7 @@ export function AIScamChat({ step, onComplete }: AIScamChatProps) {
           {leakCount > 0 && (
             <Badge variant="error">
               <ShieldAlert size={12} className="mr-1" />
-              {leakCount} {leakCount === 1 ? "утечка" : "утечек"}
+              {leakCount} {leakCount === 1 ? "утечка" : leakCount < 5 ? "утечки" : "утечек"}
             </Badge>
           )}
           <Badge variant="muted">
