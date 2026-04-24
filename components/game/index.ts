@@ -10,4 +10,5 @@ export { PermissionChecker } from "./PermissionChecker";
 export { SmartHomeMap } from "./SmartHomeMap";
 export { DataLeakCheck } from "./DataLeakCheck";
 export { LawMatch } from "./LawMatch";
+export { AIScamChat } from "./AIScamChat";
 export { DebriefingView } from "./DebriefingView";

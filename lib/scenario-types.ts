@@ -10,6 +10,7 @@ export type StepType =
   | "smart-home"
   | "data-leak-check"
   | "law-match"
+  | "ai-scam-chat"
   | "debriefing";
 
 export interface BriefingStep {
@@ -143,6 +144,18 @@ export interface LawMatchStep {
   }[];
 }
 
+export type ScamScenarioId = "bank" | "email" | "intercom" | "classmate";
+
+export interface AIScamChatStep {
+  type: "ai-scam-chat";
+  scenarioId: ScamScenarioId;
+  scammerName: string;
+  scammerRole: string;
+  context: string;
+  targetData: string[];
+  maxMessages: number;
+}
+
 export interface DebriefingStep {
   type: "debriefing";
   title: string;
@@ -164,6 +177,7 @@ export type ScenarioStep =
   | SmartHomeStep
   | DataLeakCheckStep
   | LawMatchStep
+  | AIScamChatStep
   | DebriefingStep;
 
 export interface Scenario {
