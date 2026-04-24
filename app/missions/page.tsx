@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useAuthStore, useGameStore } from "@/store";
+import { useGameStore } from "@/store";
 import { Card, Badge } from "@/components/shared";
 import { scenarios } from "@/data/scenarios";
 import { Shield, Lock, Unlock, Star } from "lucide-react";
@@ -17,24 +17,11 @@ const difficultyLabel: Record<
 };
 
 export default function MissionsPage() {
-  const { profile } = useAuthStore();
-  const { progress, xp, rank, fetchProgress, isLevelCompleted } = useGameStore();
+  const { progress, xp, rank, loadProgress, isLevelCompleted } = useGameStore();
 
   useEffect(() => {
-    if (profile) fetchProgress();
-  }, [profile, fetchProgress]);
-
-  if (!profile) {
-    return (
-      <div className="min-h-[80dvh] flex flex-col items-center justify-center px-6 text-center">
-        <Lock size={48} className="text-muted mb-4" />
-        <p className="text-muted mb-4">Войди, чтобы начать миссии</p>
-        <Link href="/auth" className="btn-primary">
-          Войти
-        </Link>
-      </div>
-    );
-  }
+    loadProgress();
+  }, [loadProgress]);
 
   const completedCount = progress.filter((e) => e.completed).length;
 
@@ -69,17 +56,13 @@ export default function MissionsPage() {
       <div className="space-y-3">
         {scenarios.map((scenario) => {
           const completed = isLevelCompleted(scenario.id);
-          const isLocked =
-            !completed && scenario.id > completedCount + 1;
           const diff = difficultyLabel[scenario.difficulty];
 
           return (
             <Link
               key={scenario.id}
-              href={isLocked ? "#" : `/missions/${scenario.id}`}
-              className={`block ${
-                isLocked ? "pointer-events-none opacity-50" : ""
-              }`}
+              href={`/missions/${scenario.id}`}
+              className="block"
             >
               <Card
                 className="hover:border-accent/50 transition-colors"
@@ -89,8 +72,6 @@ export default function MissionsPage() {
                   <div className="w-10 h-10 rounded-btn bg-accent/10 flex items-center justify-center text-lg shrink-0">
                     {completed ? (
                       <Unlock size={20} className="text-success" />
-                    ) : isLocked ? (
-                      <Lock size={20} className="text-muted" />
                     ) : (
                       <span>{scenario.icon}</span>
                     )}

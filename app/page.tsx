@@ -1,30 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store";
 import { useEffect, useState } from "react";
 import { Shield } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
-  const { user, initialize } = useAuthStore();
   const [showContent, setShowContent] = useState(false);
-  const [checked, setChecked] = useState(false);
-
-  useEffect(() => {
-    initialize().finally(() => setChecked(true));
-  }, [initialize]);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowContent(true), 500);
     return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    if (checked && user) {
-      router.push("/missions");
-    }
-  }, [checked, user, router]);
 
   return (
     <div className="min-h-[100dvh] flex flex-col items-center justify-center px-6 text-center">
@@ -52,14 +39,14 @@ export default function HomePage() {
         </p>
 
         <button
-          onClick={() => router.push("/auth")}
+          onClick={() => router.push("/missions")}
           className="btn-primary text-lg px-8 py-4 animate-pulse-glow"
         >
           Начать испытание
         </button>
 
         <div className="mt-12 flex items-center justify-center gap-8 text-muted text-xs font-mono">
-          <span>10 миссий</span>
+          <span>14 миссий</span>
           <span className="w-1 h-1 bg-muted rounded-full" />
           <span>5 рангов</span>
           <span className="w-1 h-1 bg-muted rounded-full" />

@@ -1,68 +1,30 @@
 "use client";
 
-import { useAuthStore, useGameStore } from "@/store";
+import { useGameStore } from "@/store";
 import { Card, Badge, ProgressBar } from "@/components/shared";
 import { ranks, getRankByXP, getNextRank, getXPToNextRank } from "@/lib/ranks";
 import { scenarios } from "@/data/scenarios";
 import { useEffect } from "react";
 import {
   User,
-  Trophy,
-  LogOut,
   ChevronRight,
   Star,
   Target,
   Zap,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
-  const { profile, signOut, initialize } = useAuthStore();
-  const { progress, xp, rank, fetchProgress, isLevelCompleted } = useGameStore();
-  const router = useRouter();
+  const { progress, xp, rank, loadProgress, isLevelCompleted } = useGameStore();
 
   useEffect(() => {
-    if (profile) {
-      fetchProgress();
-    }
-  }, [profile, fetchProgress]);
-
-  if (!profile) {
-    return (
-      <div className="min-h-[80dvh] flex flex-col items-center justify-center px-6 text-center">
-        <User size={48} className="text-muted mb-4" />
-        <p className="text-muted mb-4">Войди, чтобы увидеть профиль</p>
-        <button
-          onClick={() => router.push("/auth")}
-          className="btn-primary"
-        >
-          Войти
-        </button>
-      </div>
-    );
-  }
+    loadProgress();
+  }, [loadProgress]);
 
   const currentRank = getRankByXP(xp);
   const nextRank = getNextRank(xp);
   const xpToNext = getXPToNextRank(xp);
   const completedCount = progress.filter((e) => e.completed).length;
   const totalLevels = scenarios.length;
-
-  const handleLogout = async () => {
-    await signOut();
-    router.push("/");
-  };
-
-  const avatarColors = [
-    "bg-accent",
-    "bg-success",
-    "bg-warning",
-    "bg-error",
-    "bg-purple-500",
-    "bg-pink-500",
-    "bg-cyan-500",
-  ];
-  const avatarColor = avatarColors[(profile.avatar_id - 1) % avatarColors.length];
 
   return (
     <div className="px-4 md:px-8 py-6 md:py-8 max-w-2xl mx-auto">
@@ -73,13 +35,11 @@ export default function ProfilePage() {
 
       <Card glow="accent" className="mb-6">
         <div className="flex items-center gap-4 mb-4">
-          <div
-            className={`w-16 h-16 rounded-full ${avatarColor} flex items-center justify-center text-2xl font-bold text-foreground shrink-0`}
-          >
-            {profile.nickname.charAt(0).toUpperCase()}
+          <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center text-2xl font-bold text-foreground shrink-0">
+            🛡️
           </div>
           <div>
-            <h2 className="text-xl font-bold">{profile.nickname}</h2>
+            <h2 className="text-xl font-bold">Кибер-Агент</h2>
             <div className="flex items-center gap-2 mt-1">
               <Badge variant="accent">{currentRank.name}</Badge>
               <span className="text-xs text-muted font-mono">
@@ -179,24 +139,16 @@ export default function ProfilePage() {
             {progress
               .filter((e) => e.completed)
               .map((e) => {
-                const level = scenarios.find((s) => s.id === e.level_id);
+                const scenario = scenarios.find((s) => s.id === e.level_id);
                 return (
                   <Badge key={e.level_id} variant="success">
-                    #{e.level_id} {level?.title || `Миссия ${e.level_id}`}
+                    #{e.level_id} {scenario?.title || `Миссия ${e.level_id}`}
                   </Badge>
                 );
               })}
           </div>
         )}
       </div>
-
-      <button
-        onClick={handleLogout}
-        className="flex items-center gap-2 text-error text-sm hover:underline mt-8"
-      >
-        <LogOut size={16} />
-        Выйти из аккаунта
-      </button>
     </div>
   );
 }
