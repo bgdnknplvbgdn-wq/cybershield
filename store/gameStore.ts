@@ -1,109 +1,90 @@
 import { create } from "zustand";
-import { supabase } from "@/lib/supabase";
-import { ranks, getRankByXP } from "@/lib/ranks";
-import { useAuthStore } from "./authStore";
+import { getRankByXP } from "@/lib/ranks";
+import { scenarios } from "@/data/scenarios";
 
 interface ProgressEntry {
-  id: string;
-  user_id: string;
   level_id: number;
   score: number;
   completed: boolean;
   completed_at: string | null;
-  created_at: string;
 }
 
 interface GameState {
   progress: ProgressEntry[];
-  currentLevel: number;
   xp: number;
   rank: string;
-  fetchProgress: () => Promise<void>;
+  loadProgress: () => void;
   updateProgress: (levelId: number, score: number) => Promise<void>;
-  calculateRank: (xp: number) => string;
   isLevelCompleted: (levelId: number) => boolean;
 }
 
+const STORAGE_KEY = "cybershield_progress";
+const XP_STORAGE_KEY = "cybershield_xp";
 const xpReward: Record<number, number> = { 1: 10, 2: 20, 3: 30 };
+
+function loadFromStorage(): { progress: ProgressEntry[]; xp: number } {
+  if (typeof window === "undefined") return { progress: [], xp: 0 };
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const savedXp = localStorage.getItem(XP_STORAGE_KEY);
+    return {
+      progress: saved ? JSON.parse(saved) : [],
+      xp: savedXp ? parseInt(savedXp, 10) : 0,
+    };
+  } catch {
+    return { progress: [], xp: 0 };
+  }
+}
+
+function saveToStorage(progress: ProgressEntry[], xp: number) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+    localStorage.setItem(XP_STORAGE_KEY, String(xp));
+  } catch {
+    // localStorage not available
+  }
+}
 
 export const useGameStore = create<GameState>((set, get) => ({
   progress: [],
-  currentLevel: 1,
   xp: 0,
   rank: "Новичок",
 
-  fetchProgress: async () => {
-    const { profile } = useAuthStore.getState();
-    if (!profile) return;
-
-    const { data } = await supabase
-      .from("progress")
-      .select("*")
-      .eq("user_id", profile.id)
-      .order("level_id", { ascending: true });
-
-    if (data) {
-      const entries = data as ProgressEntry[];
-      const completedIds = entries
-        .filter((e) => e.completed)
-        .map((e) => e.level_id);
-      const nextLevel = completedIds.length > 0
-        ? Math.max(...completedIds) + 1
-        : 1;
-
-      set({
-        progress: entries,
-        currentLevel: nextLevel,
-        xp: profile.xp,
-        rank: profile.rank,
-      });
-    }
+  loadProgress: () => {
+    const { progress, xp } = loadFromStorage();
+    set({
+      progress,
+      xp,
+      rank: getRankByXP(xp).name,
+    });
   },
 
   updateProgress: async (levelId, score) => {
-    const { profile } = useAuthStore.getState();
-    if (!profile) return;
+    const { progress, xp } = get();
 
-    const { data: existing } = await supabase
-      .from("progress")
-      .select("id")
-      .eq("user_id", profile.id)
-      .eq("level_id", levelId)
-      .single();
+    const already = progress.some((e) => e.level_id === levelId && e.completed);
+    if (already) return;
 
-    if (existing) return;
+    const scenario = scenarios.find((s) => s.id === levelId);
+    const earnedXP = scenario ? xpReward[scenario.difficulty] || 10 : 10;
 
-    const levels = (await import("@/data/levels.json")).default;
-    const level = levels.find((l: { id: number; difficulty: number }) => l.id === levelId);
-    const earnedXP = level ? xpReward[level.difficulty as 1 | 2 | 3] || 10 : 10;
-
-    await supabase.from("progress").insert({
-      user_id: profile.id,
+    const entry: ProgressEntry = {
       level_id: levelId,
       score,
       completed: true,
       completed_at: new Date().toISOString(),
-    });
+    };
 
-    const newXp = profile.xp + earnedXP;
+    const newProgress = [...progress.filter((e) => e.level_id !== levelId), entry];
+    const newXp = xp + earnedXP;
     const newRank = getRankByXP(newXp).name;
 
-    await supabase
-      .from("users")
-      .update({ xp: newXp, rank: newRank })
-      .eq("id", profile.id);
-
-    await useAuthStore.getState().fetchUserProfile();
-    await get().fetchProgress();
-  },
-
-  calculateRank: (xp) => {
-    return getRankByXP(xp).name;
+    saveToStorage(newProgress, newXp);
+    set({ progress: newProgress, xp: newXp, rank: newRank });
   },
 
   isLevelCompleted: (levelId) => {
-    return get().progress.some(
-      (e) => e.level_id === levelId && e.completed
-    );
+    return get().progress.some((e) => e.level_id === levelId && e.completed);
   },
 }));

@@ -23,7 +23,7 @@ export function Card({
 
   return (
     <div
-      className={cn("card-base", glowClass, onClick && "cursor-pointer", className)}
+      className={cn("card-base cyber-corners", glowClass, onClick && "cursor-pointer", className)}
       onClick={onClick}
     >
       {children}
@@ -39,17 +39,17 @@ interface BadgeProps {
 
 export function Badge({ children, variant = "accent", className }: BadgeProps) {
   const variantClass = {
-    accent: "bg-accent/20 text-accent",
-    success: "bg-success/20 text-success",
-    error: "bg-error/20 text-error",
-    warning: "bg-warning/20 text-warning",
-    muted: "bg-muted/20 text-muted",
+    accent: "bg-accent/10 text-accent border border-accent/30",
+    success: "bg-success/10 text-success border border-success/30",
+    error: "bg-error/10 text-error border border-error/30",
+    warning: "bg-warning/10 text-warning border border-warning/30",
+    muted: "bg-muted/10 text-muted border border-muted/30",
   }[variant];
 
   return (
     <span
       className={cn(
-        "inline-flex items-center px-2 py-0.5 rounded-btn text-xs font-mono font-semibold",
+        "inline-flex items-center px-2.5 py-0.5 rounded-btn text-xs font-mono font-semibold uppercase tracking-wider",
         variantClass,
         className
       )}
@@ -70,12 +70,12 @@ export function ProgressBar({ value, max, className }: ProgressBarProps) {
   return (
     <div
       className={cn(
-        "w-full h-2 bg-card-border rounded-full overflow-hidden",
+        "cyber-progress",
         className
       )}
     >
       <div
-        className="h-full bg-accent rounded-full transition-all duration-500"
+        className="bar"
         style={{ width: `${percent}%` }}
       />
     </div>

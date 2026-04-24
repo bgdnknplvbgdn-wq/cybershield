@@ -1,135 +1,115 @@
 "use client";
 
 import Link from "next/link";
-import { useAuthStore, useGameStore } from "@/store";
+import { useGameStore } from "@/store";
 import { Card, Badge } from "@/components/shared";
-import levels from "@/data/levels.json";
-import { Shield, Lock, Unlock, Star } from "lucide-react";
+import { scenarios } from "@/data/scenarios";
+import { Shield, CheckCircle2, Lock, ChevronRight, Zap, Target } from "lucide-react";
 import { useEffect } from "react";
-import type { Level } from "@/lib/types";
 
 const difficultyLabel: Record<
   number,
   { text: string; variant: "success" | "warning" | "error" }
 > = {
-  1: { text: "Лёгкий", variant: "success" },
-  2: { text: "Средний", variant: "warning" },
-  3: { text: "Сложный", variant: "error" },
-};
-
-const typeIcons: Record<string, string> = {
-  phishing: "🎣",
-  malware: "🦠",
-  social: "🎭",
-  network: "🌐",
-  crypto: "🔐",
-  law: "⚖️",
-  data: "💾",
-  mobile: "📱",
-  iot: "🏠",
-  password: "🔑",
+  1: { text: "ЛЁГКИЙ", variant: "success" },
+  2: { text: "СРЕДНИЙ", variant: "warning" },
+  3: { text: "СЛОЖНЫЙ", variant: "error" },
 };
 
 export default function MissionsPage() {
-  const { profile } = useAuthStore();
-  const { progress, xp, rank, fetchProgress, isLevelCompleted } = useGameStore();
+  const { progress, xp, rank, loadProgress, isLevelCompleted } = useGameStore();
 
   useEffect(() => {
-    if (profile) fetchProgress();
-  }, [profile, fetchProgress]);
-
-  if (!profile) {
-    return (
-      <div className="min-h-[80dvh] flex flex-col items-center justify-center px-6 text-center">
-        <Lock size={48} className="text-muted mb-4" />
-        <p className="text-muted mb-4">Войди, чтобы начать миссии</p>
-        <Link href="/auth" className="btn-primary">
-          Войти
-        </Link>
-      </div>
-    );
-  }
+    loadProgress();
+  }, [loadProgress]);
 
   const completedCount = progress.filter((e) => e.completed).length;
 
   return (
     <div className="px-4 md:px-8 py-6 md:py-8 max-w-3xl mx-auto">
+      {/* Header */}
       <div className="flex items-center gap-3 mb-6">
-        <Shield size={28} className="text-accent" />
-        <h1 className="text-2xl md:text-3xl font-bold">Миссии</h1>
+        <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/30 flex items-center justify-center">
+          <Target size={22} className="text-accent" />
+        </div>
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold font-cyber tracking-wider">МИССИИ</h1>
+          <p className="text-xs text-muted font-mono">ВЫБЕРИТЕ ЗАДАНИЕ</p>
+        </div>
       </div>
 
-      <div className="mb-6 p-4 bg-card rounded-card border border-card-border">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-muted font-mono">Прогресс</span>
-          <span className="text-sm font-mono text-accent">
-            {completedCount} / {levels.length}
-          </span>
+      {/* Progress panel */}
+      <Card className="mb-6" glow="accent">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Shield size={16} className="text-accent" />
+            <span className="text-sm text-accent font-mono uppercase tracking-wider">Прогресс агента</span>
+          </div>
+          <Badge variant="accent">{rank}</Badge>
         </div>
-        <div className="w-full h-2 bg-card-border rounded-full overflow-hidden">
+        <div className="cyber-progress mb-2">
           <div
-            className="h-full bg-accent rounded-full transition-all duration-500"
-            style={{
-              width: `${(completedCount / levels.length) * 100}%`,
-            }}
+            className="bar"
+            style={{ width: `${(completedCount / scenarios.length) * 100}%` }}
           />
         </div>
-        <div className="flex items-center justify-between mt-2">
-          <span className="text-xs text-muted font-mono">XP: {xp}</span>
-          <span className="text-xs text-accent font-mono">{rank}</span>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted font-mono">
+            {completedCount} / {scenarios.length} ВЫПОЛНЕНО
+          </span>
+          <span className="text-xs font-mono flex items-center gap-1">
+            <Zap size={12} className="text-warning" />
+            <span className="text-warning">{xp} XP</span>
+          </span>
         </div>
-      </div>
+      </Card>
 
+      {/* Mission list */}
       <div className="space-y-3">
-        {(levels as Level[]).map((level) => {
-          const completed = isLevelCompleted(level.id);
-          const isLocked =
-            !completed && level.id > completedCount + 1;
-          const diff = difficultyLabel[level.difficulty];
+        {scenarios.map((scenario) => {
+          const completed = isLevelCompleted(scenario.id);
+          const diff = difficultyLabel[scenario.difficulty];
 
           return (
             <Link
-              key={level.id}
-              href={isLocked ? "#" : `/missions/${level.id}`}
-              className={`block ${
-                isLocked ? "pointer-events-none opacity-50" : ""
-              }`}
+              key={scenario.id}
+              href={`/missions/${scenario.id}`}
+              className="block group"
             >
               <Card
-                className="hover:border-accent/50 transition-colors"
+                className="group-hover:border-accent/40 transition-all"
                 glow={completed ? "success" : "none"}
               >
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-btn bg-accent/10 flex items-center justify-center text-lg shrink-0">
+                <div className="flex items-center gap-4">
+                  {/* Mission number */}
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-lg shrink-0 font-cyber font-bold clip-corner ${
+                    completed
+                      ? "bg-success/10 border border-success/30 text-success neon-glow-success"
+                      : "bg-card-alt border border-card-border text-accent"
+                  }`}>
                     {completed ? (
-                      <Unlock size={20} className="text-success" />
-                    ) : isLocked ? (
-                      <Lock size={20} className="text-muted" />
+                      <CheckCircle2 size={22} />
                     ) : (
-                      <span>{typeIcons[level.type] || "🎯"}</span>
+                      <span className="text-sm">{String(scenario.id).padStart(2, "0")}</span>
                     )}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs text-muted font-mono">
-                        #{level.id}
-                      </span>
                       <Badge variant={diff.variant}>{diff.text}</Badge>
                       {completed && (
-                        <Star
-                          size={14}
-                          className="text-success fill-success"
-                        />
+                        <span className="text-[10px] text-success font-mono uppercase">ПРОЙДЕНО</span>
                       )}
                     </div>
                     <h3 className="font-semibold text-sm md:text-base truncate">
-                      {level.title}
+                      {scenario.title}
                     </h3>
-                    <p className="text-muted text-xs mt-1 line-clamp-2">
-                      {level.description}
+                    <p className="text-muted text-xs mt-0.5 line-clamp-1 font-mono">
+                      {scenario.description}
                     </p>
                   </div>
+
+                  <ChevronRight size={18} className="text-muted group-hover:text-accent transition-colors shrink-0" />
                 </div>
               </Card>
             </Link>

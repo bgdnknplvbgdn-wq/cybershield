@@ -1,69 +1,111 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store";
 import { useEffect, useState } from "react";
-import { Shield } from "lucide-react";
+import { Shield, Terminal, Zap, ChevronRight } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
-  const { user, initialize } = useAuthStore();
   const [showContent, setShowContent] = useState(false);
-  const [checked, setChecked] = useState(false);
+  const [typedText, setTypedText] = useState("");
+  const fullText = "ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ ЗАЩИТЫ...";
 
   useEffect(() => {
-    initialize().finally(() => setChecked(true));
-  }, [initialize]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowContent(true), 500);
+    const timer = setTimeout(() => setShowContent(true), 800);
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (checked && user) {
-      router.push("/missions");
-    }
-  }, [checked, user, router]);
+    if (!showContent) return;
+    let i = 0;
+    const interval = setInterval(() => {
+      setTypedText(fullText.slice(0, i + 1));
+      i++;
+      if (i >= fullText.length) clearInterval(interval);
+    }, 50);
+    return () => clearInterval(interval);
+  }, [showContent]);
 
   return (
-    <div className="min-h-[100dvh] flex flex-col items-center justify-center px-6 text-center">
+    <div className="min-h-[100dvh] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
+      {/* Scanline overlay */}
+      <div className="fixed inset-0 pointer-events-none scanline-overlay z-10" />
+
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-neon-blue/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-accent/5 rounded-full" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-neon-blue/5 rounded-full" />
+      </div>
+
       <div
-        className={`transition-all duration-1000 ${
+        className={`transition-all duration-1000 relative z-20 ${
           showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
+        {/* Shield icon with glow */}
         <div className="animate-float mb-8">
-          <div className="w-24 h-24 mx-auto rounded-full bg-accent/20 flex items-center justify-center neon-glow">
-            <Shield size={48} className="text-accent" />
+          <div className="w-28 h-28 mx-auto rounded-2xl bg-accent/10 border border-accent/30 flex items-center justify-center neon-glow relative">
+            <Shield size={56} className="text-accent" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-cyber-pulse" />
           </div>
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-4 font-heading">
-          <span className="text-gradient">КИБЕРЩИТ</span>
+        {/* Title with glitch effect */}
+        <h1 className="text-5xl md:text-7xl font-extrabold mb-4 font-cyber tracking-wider glitch-text relative">
+          <span className="text-gradient">КИБЕР</span>
+          <span className="text-foreground">РУБЕЖ</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-muted mb-2 font-mono">
-          Ты в сети. Они в охоте.
-        </p>
-        <p className="text-sm text-muted/60 mb-10 max-w-md mx-auto">
-          Интерактивная платформа кибербезопасности для граждан Республики
-          Беларусь
+        {/* Typed terminal text */}
+        <div className="flex items-center justify-center gap-2 mb-3">
+          <Terminal size={16} className="text-accent" />
+          <p className="text-sm md:text-base text-accent font-mono">
+            {typedText}
+            <span className="animate-pulse">_</span>
+          </p>
+        </div>
+
+        <p className="text-sm text-muted/80 mb-10 max-w-md mx-auto font-mono">
+          Интерактивная образовательная платформа по кибербезопасности
+          для граждан Республики Беларусь
         </p>
 
+        {/* CTA Button */}
         <button
-          onClick={() => router.push("/auth")}
-          className="btn-primary text-lg px-8 py-4 animate-pulse-glow"
+          onClick={() => router.push("/missions")}
+          className="btn-primary text-lg px-10 py-4 animate-pulse-glow font-cyber tracking-widest flex items-center gap-3 mx-auto"
         >
-          Начать испытание
+          <Zap size={20} />
+          НАЧАТЬ ОБУЧЕНИЕ
+          <ChevronRight size={20} />
         </button>
 
-        <div className="mt-12 flex items-center justify-center gap-8 text-muted text-xs font-mono">
-          <span>10 миссий</span>
-          <span className="w-1 h-1 bg-muted rounded-full" />
-          <span>5 рангов</span>
-          <span className="w-1 h-1 bg-muted rounded-full" />
-          <span>Беларусь 🇧🇾</span>
+        {/* Stats bar */}
+        <div className="mt-12 flex items-center justify-center gap-6 text-muted text-xs font-mono">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-accent rounded-full" />
+            <span>14 МИССИЙ</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-neon-blue rounded-full" />
+            <span>5 РАНГОВ</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-neon rounded-full" />
+            <span>AI МОШЕННИК</span>
+          </div>
+        </div>
+
+        {/* Author and hashtag */}
+        <div className="mt-8 space-y-1">
+          <p className="text-accent/60 text-xs font-mono">
+            #КиберПраво
+          </p>
+          <p className="text-muted text-xs font-mono">
+            Автор: Коноплёв Богдан, 17 лет
+          </p>
         </div>
       </div>
     </div>
