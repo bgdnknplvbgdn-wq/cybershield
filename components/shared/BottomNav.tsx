@@ -21,7 +21,7 @@ export default function BottomNav() {
       {/* Desktop sidebar nav */}
       <nav className="hidden md:flex fixed left-0 top-0 bottom-0 w-20 flex-col items-center py-6 bg-card/95 border-r border-card-border/50 z-50 backdrop-blur-md">
         <div className="mb-8">
-          <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/30 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/30 flex items-center justify-center neon-glow clip-corner">
             <span className="text-accent font-cyber text-sm font-bold">КР</span>
           </div>
         </div>
@@ -34,19 +34,23 @@ export default function BottomNav() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center gap-1 text-[10px] font-mono tracking-wider py-3 px-2 rounded-lg transition-all w-full",
+                  "flex flex-col items-center gap-1 text-[10px] font-mono tracking-wider py-3 px-2 rounded-lg transition-all w-full relative",
                   isActive
-                    ? "text-accent bg-accent/5 border-l-2 border-accent"
+                    ? "text-accent bg-accent/10 border-l-2 border-accent"
                     : "text-muted hover:text-accent hover:bg-accent/5"
                 )}
               >
+                {isActive && (
+                  <span className="absolute inset-0 rounded-lg bg-accent/5 animate-pulse-glow pointer-events-none" />
+                )}
                 <Icon size={22} />
                 <span>{item.label}</span>
               </Link>
             );
           })}
         </div>
-        <div className="mt-auto">
+        <div className="mt-auto flex flex-col items-center gap-2">
+          <div className="w-px h-8 bg-gradient-to-b from-accent/30 to-transparent" />
           <div className="w-2 h-2 rounded-full bg-accent animate-cyber-pulse" />
         </div>
       </nav>

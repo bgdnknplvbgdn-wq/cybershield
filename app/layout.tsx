@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { BottomNav, ThemeProvider } from "@/components/shared";
+import { BottomNav, MatrixRain, ThemeProvider } from "@/components/shared";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -35,14 +35,20 @@ export default function RootLayout({
           }}
         />
         <ThemeProvider>
+          <MatrixRain />
           <header className="hidden md:flex fixed top-0 left-20 right-0 h-14 items-center px-6 bg-card/90 backdrop-blur-md border-b border-card-border/50 z-40">
-            <span className="text-xl font-bold tracking-widest font-cyber">
+            <span className="text-xl font-bold tracking-widest font-cyber glitch-text">
               <span className="text-gradient">КИБЕР</span>
               <span className="text-foreground">РУБЕЖ</span>
             </span>
-            <div className="ml-auto flex items-center gap-3">
-              <span className="status-dot bg-accent" />
-              <span className="text-xs font-mono text-muted">СИСТЕМА АКТИВНА</span>
+            <div className="ml-auto flex items-center gap-4">
+              <div className="terminal-header">
+                <span>v2.0</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="status-dot bg-accent" />
+                <span className="text-xs font-mono text-muted">СИСТЕМА АКТИВНА</span>
+              </div>
             </div>
           </header>
 

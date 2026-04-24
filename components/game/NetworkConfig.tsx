@@ -49,7 +49,7 @@ export function NetworkConfig({ step, onComplete }: NetworkConfigProps) {
       <div className="space-y-4">
         <div className="flex items-center gap-2 mb-2">
           <Wifi size={18} className="text-accent" />
-          <h3 className="font-semibold text-sm">Найди и защити уязвимые устройства</h3>
+          <h3 className="font-semibold text-sm font-cyber tracking-wider">ЗАЩИТИ УСТРОЙСТВА</h3>
           <Badge variant="accent">{fixedDevices.size}/{vulnerableDevices.length}</Badge>
         </div>
 
@@ -90,7 +90,7 @@ export function NetworkConfig({ step, onComplete }: NetworkConfigProps) {
             className="btn-primary w-full flex items-center justify-center gap-2"
           >
             <Shield size={18} />
-            <span>Настроить сеть</span>
+            <span className="font-cyber tracking-wider">НАСТРОИТЬ СЕТЬ</span>
           </button>
         )}
       </div>
@@ -103,7 +103,7 @@ export function NetworkConfig({ step, onComplete }: NetworkConfigProps) {
       <div className="space-y-4">
         <div className="flex items-center gap-2 mb-2">
           <Wifi size={18} className="text-accent" />
-          <h3 className="font-semibold text-sm">Настройка сети</h3>
+          <h3 className="font-semibold text-sm font-cyber tracking-wider">НАСТРОЙКА СЕТИ</h3>
           <Badge variant="accent">{currentTaskIdx + 1}/{step.tasks.length}</Badge>
         </div>
 

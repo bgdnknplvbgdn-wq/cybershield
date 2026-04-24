@@ -56,22 +56,22 @@ export function ScenarioEngine({ scenario, onComplete, onBack }: ScenarioEngineP
   return (
     <div className="min-h-[80dvh] px-4 md:px-8 py-6 md:py-8 max-w-3xl mx-auto">
       <div className="flex items-center gap-3 mb-4">
-        <button onClick={onBack} className="text-muted hover:text-foreground transition-colors">
-          <ArrowLeft size={20} />
+        <button onClick={onBack} className="w-8 h-8 rounded-lg bg-card-alt border border-card-border flex items-center justify-center text-muted hover:text-accent hover:border-accent/30 transition-all">
+          <ArrowLeft size={18} />
         </button>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-lg">{scenario.icon}</span>
-            <h1 className="text-lg font-bold truncate">{scenario.title}</h1>
+            <h1 className="text-sm font-bold truncate font-cyber tracking-wider uppercase">{scenario.title}</h1>
           </div>
-          <div className="w-full h-1.5 bg-card-border rounded-full overflow-hidden">
+          <div className="cyber-progress">
             <div
-              className="h-full bg-accent rounded-full transition-all duration-500"
+              className="bar"
               style={{ width: `${progress}%` }}
             />
           </div>
         </div>
-        <span className="text-xs text-muted font-mono">{currentStep + 1}/{scenario.steps.length}</span>
+        <span className="text-xs text-accent font-mono font-bold">{currentStep + 1}/{scenario.steps.length}</span>
       </div>
 
       <div className="mt-6 animate-fadeIn" key={currentStep}>

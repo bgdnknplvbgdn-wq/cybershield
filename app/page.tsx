@@ -53,7 +53,7 @@ export default function HomePage() {
         </div>
 
         {/* Title with glitch effect */}
-        <h1 className="text-5xl md:text-7xl font-extrabold mb-4 font-cyber tracking-wider">
+        <h1 className="text-5xl md:text-7xl font-extrabold mb-4 font-cyber tracking-wider glitch-text relative">
           <span className="text-gradient">КИБЕР</span>
           <span className="text-foreground">РУБЕЖ</span>
         </h1>

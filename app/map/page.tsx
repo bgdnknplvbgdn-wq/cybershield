@@ -9,6 +9,8 @@ import {
   Loader2,
   AlertTriangle,
   Radio,
+  Shield,
+  Clock,
 } from "lucide-react";
 
 interface NewsItem {
@@ -33,6 +35,14 @@ function formatDate(dateStr: string): string {
   } catch {
     return dateStr;
   }
+}
+
+function getSourceClass(source: string): string {
+  if (source.includes("БелТА")) return "source-belta";
+  if (source.includes("МВД")) return "source-mvd";
+  if (source.includes("СБ")) return "source-sb";
+  if (source.includes("ОНТ")) return "source-ont";
+  return "source-default";
 }
 
 export default function NewsPage() {
@@ -124,11 +134,21 @@ export default function NewsPage() {
             >
               <Card className="group-hover:border-accent/40 transition-all">
                 <div className="flex items-start gap-3">
+                  <div className="w-1 self-stretch rounded-full bg-accent/30 shrink-0" style={{
+                    backgroundColor: item.source.includes("БелТА") ? "rgba(0,212,255,0.5)" :
+                      item.source.includes("МВД") ? "rgba(255,0,110,0.5)" :
+                      item.source.includes("СБ") ? "rgba(255,184,0,0.5)" :
+                      item.source.includes("ОНТ") ? "rgba(180,0,255,0.5)" :
+                      "rgba(0,255,204,0.5)"
+                  }} />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
-                      <Badge variant="accent">{item.source}</Badge>
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase tracking-wider ${getSourceClass(item.source)}`}>
+                        {item.source}
+                      </span>
                       {item.date && (
-                        <span className="text-[10px] text-muted font-mono">
+                        <span className="text-[10px] text-muted font-mono flex items-center gap-1">
+                          <Clock size={10} />
                           {formatDate(item.date)}
                         </span>
                       )}
@@ -154,7 +174,7 @@ export default function NewsPage() {
 
       {!loading && news.length > 0 && (
         <p className="text-center text-[10px] text-muted mt-6 font-mono uppercase tracking-widest">
-          Источники: БелТА, СБ Беларусь сегодня, ОНТ
+          Источники: БелТА · МВД РБ · СБ Беларусь сегодня · ОНТ · Минсвязи
         </p>
       )}
     </div>

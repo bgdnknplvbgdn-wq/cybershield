@@ -172,27 +172,28 @@ export function AIScamChat({ step, onComplete }: AIScamChatProps) {
     return (
       <div className="space-y-4">
         <div className="text-center py-8">
-          <div className="w-20 h-20 mx-auto rounded-full bg-error/20 flex items-center justify-center mb-4 animate-pulse">
-            <MessageCircle size={36} className="text-error" />
+          <div className="w-24 h-24 mx-auto rounded-xl bg-error/10 border border-error/30 flex items-center justify-center mb-4 neon-glow-error relative">
+            <MessageCircle size={40} className="text-error" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-error rounded-full animate-cyber-pulse" />
           </div>
-          <h3 className="text-xl font-bold mb-2">Входящее сообщение</h3>
-          <p className="text-muted text-sm mb-1">{step.scammerName}</p>
-          <p className="text-xs text-muted">{step.scammerRole}</p>
-          <Card className="mt-4 bg-warning/5 border-warning/20">
+          <h3 className="text-xl font-bold mb-2 font-cyber tracking-wider">ВХОДЯЩЕЕ СООБЩЕНИЕ</h3>
+          <p className="text-error text-sm font-mono mb-1">{step.scammerName}</p>
+          <p className="text-xs text-muted font-mono">{step.scammerRole}</p>
+          <Card className="mt-4 bg-warning/5 border-warning/20 cyber-corners">
             <div className="flex items-start gap-2">
               <AlertTriangle size={16} className="text-warning shrink-0 mt-0.5" />
               <div className="text-left">
-                <p className="text-xs text-warning font-semibold mb-1">Задание</p>
+                <p className="text-xs text-warning font-semibold mb-1 font-mono uppercase tracking-wider">Задание</p>
                 <p className="text-xs text-muted">{step.context}</p>
-                <p className="text-xs text-warning mt-2 font-semibold">
+                <p className="text-xs text-error mt-2 font-semibold font-mono uppercase">
                   Не выдавай: {step.targetData.join(", ")}
                 </p>
               </div>
             </div>
           </Card>
         </div>
-        <button onClick={startChat} className="btn-primary w-full animate-pulse-glow">
-          Начать разговор
+        <button onClick={startChat} className="btn-primary w-full animate-pulse-glow font-cyber tracking-wider">
+          НАЧАТЬ РАЗГОВОР
         </button>
       </div>
     );

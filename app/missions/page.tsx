@@ -82,10 +82,10 @@ export default function MissionsPage() {
               >
                 <div className="flex items-center gap-4">
                   {/* Mission number */}
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-lg shrink-0 font-cyber font-bold ${
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-lg shrink-0 font-cyber font-bold clip-corner ${
                     completed
-                      ? "bg-success/10 border border-success/30 text-success"
-                      : "bg-card-alt border border-card-border text-muted"
+                      ? "bg-success/10 border border-success/30 text-success neon-glow-success"
+                      : "bg-card-alt border border-card-border text-accent"
                   }`}>
                     {completed ? (
                       <CheckCircle2 size={22} />

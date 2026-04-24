@@ -24,19 +24,19 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
 
   return (
     <div className="space-y-4">
-      <Card>
+      <Card className="cyber-corners">
         <h3 className="font-semibold text-base mb-4">{step.question}</h3>
         <div className="space-y-2">
           {step.options.map((option, i) => {
             let cls = "w-full text-left p-3 rounded-btn border transition-all text-sm ";
             if (!answered) {
               cls += selected === i
-                ? "border-accent bg-accent/10"
-                : "border-card-border bg-background hover:border-accent/50";
+                ? "border-accent bg-accent/10 neon-glow"
+                : "border-card-border bg-background hover:border-accent/50 hover:bg-accent/5";
             } else if (i === step.correctIndex) {
-              cls += "border-success bg-success/10 text-success";
+              cls += "border-success bg-success/10 text-success neon-glow-success";
             } else if (i === selected) {
-              cls += "border-error bg-error/10 text-error";
+              cls += "border-error bg-error/10 text-error neon-glow-error";
             } else {
               cls += "border-card-border bg-background opacity-50";
             }
@@ -44,7 +44,7 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
             return (
               <button key={i} onClick={() => handleSelect(i)} className={cls} disabled={answered}>
                 <div className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded-full border border-current flex items-center justify-center text-xs font-mono shrink-0">
+                  <span className="w-7 h-7 rounded border border-current flex items-center justify-center text-xs font-mono shrink-0 clip-corner">
                     {answered && i === step.correctIndex ? (
                       <CheckCircle2 size={14} />
                     ) : answered && i === selected ? (
@@ -62,7 +62,7 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
       </Card>
 
       {answered && (
-        <Card className={isCorrect ? "bg-success/5 border-success/20" : "bg-error/5 border-error/20"}>
+        <Card className={isCorrect ? "bg-success/5 border-success/20 cyber-corners" : "bg-error/5 border-error/20 cyber-corners"}>
           <div className="flex items-start gap-2">
             {isCorrect ? (
               <CheckCircle2 size={18} className="text-success shrink-0 mt-0.5" />
@@ -70,7 +70,7 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
               <XCircle size={18} className="text-error shrink-0 mt-0.5" />
             )}
             <div>
-              <p className="text-sm font-semibold mb-1">{isCorrect ? "Правильно!" : "Неверно!"}</p>
+              <p className="text-sm font-semibold mb-1 font-cyber tracking-wider">{isCorrect ? "ПРАВИЛЬНО" : "НЕВЕРНО"}</p>
               <p className="text-xs text-muted">{step.explanation}</p>
             </div>
           </div>
@@ -80,9 +80,9 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
       {answered && (
         <button
           onClick={() => onComplete(isCorrect ? 1 : 0, 1)}
-          className="btn-primary w-full flex items-center justify-center gap-2"
+          className="btn-primary w-full flex items-center justify-center gap-2 font-cyber tracking-wider"
         >
-          <span>Далее</span>
+          <span>ДАЛЕЕ</span>
           <ChevronRight size={18} />
         </button>
       )}

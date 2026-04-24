@@ -94,15 +94,16 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
     return (
       <div className="space-y-4">
         <div className="text-center py-8">
-          <div className="w-20 h-20 mx-auto rounded-full bg-error/20 flex items-center justify-center mb-4 animate-pulse">
-            <Phone size={36} className="text-error" />
+          <div className="w-24 h-24 mx-auto rounded-xl bg-error/10 border border-error/30 flex items-center justify-center mb-4 neon-glow-error relative">
+            <Phone size={40} className="text-error" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-error rounded-full animate-cyber-pulse" />
           </div>
-          <h3 className="text-xl font-bold mb-2">Входящий звонок</h3>
-          <p className="text-muted text-sm mb-1">{step.callerName}</p>
-          <p className="text-xs text-muted">{step.callerRole}</p>
+          <h3 className="text-xl font-bold mb-2 font-cyber tracking-wider">ВХОДЯЩИЙ ЗВОНОК</h3>
+          <p className="text-error text-sm font-mono mb-1">{step.callerName}</p>
+          <p className="text-xs text-muted font-mono">{step.callerRole}</p>
         </div>
-        <button onClick={startDialog} className="btn-primary w-full animate-pulse-glow">
-          Ответить на звонок
+        <button onClick={startDialog} className="btn-primary w-full animate-pulse-glow font-cyber tracking-wider">
+          ОТВЕТИТЬ НА ЗВОНОК
         </button>
       </div>
     );

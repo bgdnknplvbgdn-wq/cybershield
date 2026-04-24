@@ -325,10 +325,94 @@
     }
   }
 
+  /* ===== GLITCH TEXT ===== */
+  .glitch-text {
+    animation: textFlicker 5s linear infinite;
+  }
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    clip-path: inset(0);
+  }
+  .glitch-text:hover {
+    animation: glitch 0.4s linear;
+  }
+
+  /* ===== SOURCE BADGES ===== */
+  .source-belta {
+    border-color: #00d4ff;
+    color: #00d4ff;
+    background: rgba(0, 212, 255, 0.1);
+  }
+  .source-mvd {
+    border-color: #ff006e;
+    color: #ff006e;
+    background: rgba(255, 0, 110, 0.1);
+  }
+  .source-sb {
+    border-color: #ffb800;
+    color: #ffb800;
+    background: rgba(255, 184, 0, 0.1);
+  }
+  .source-ont {
+    border-color: #b400ff;
+    color: #b400ff;
+    background: rgba(180, 0, 255, 0.1);
+  }
+  .source-default {
+    border-color: #00ffcc;
+    color: #00ffcc;
+    background: rgba(0, 255, 204, 0.1);
+  }
+
+  /* ===== DATA HUD ===== */
+  .data-hud {
+    position: relative;
+    padding-left: 1rem;
+  }
+  .data-hud::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, #00ffcc, transparent);
+  }
+
   /* ===== HEXAGON DECORATIONS ===== */
   .hex-badge {
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     background: linear-gradient(135deg, #00ffcc, #00b894);
+  }
+
+  /* ===== TERMINAL HEADER ===== */
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(0, 255, 204, 0.05);
+    border: 1px solid rgba(0, 255, 204, 0.15);
+    border-radius: 6px;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 0.75rem;
+    color: #00ffcc;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .terminal-header::before {
+    content: ">";
+    color: #00ffcc;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
   }
 
   /* ===== PROGRESS BAR CYBERPUNK ===== */
