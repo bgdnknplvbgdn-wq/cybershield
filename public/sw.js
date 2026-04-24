@@ -1,5 +1,5 @@
-const CACHE_NAME = "cybershield-v1";
-const STATIC_ASSETS = ["/", "/missions", "/map", "/laws", "/profile", "/auth"];
+const CACHE_NAME = "cyberrubezh-v3";
+const STATIC_ASSETS = ["/", "/missions", "/map", "/glossary", "/profile", "/about"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

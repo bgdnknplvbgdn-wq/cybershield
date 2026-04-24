@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Словарь — КИБЕРЩИТ",
+  title: "Словарь — КИБЕРРУБЕЖ",
   description: "Словарь терминов кибербезопасности",
 };
 

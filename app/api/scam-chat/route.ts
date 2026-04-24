@@ -48,8 +48,8 @@ export async function POST(req: NextRequest) {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
-        "HTTP-Referer": "https://cybershield.app",
-        "X-Title": "CyberShield - Educational Scam Simulation",
+        "HTTP-Referer": "https://cyberrubezh.app",
+        "X-Title": "CyberRubezh - Educational Scam Simulation",
       },
       body: JSON.stringify({
         model: "z-ai/glm-4.5-air:free",

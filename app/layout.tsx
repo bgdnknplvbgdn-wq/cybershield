@@ -3,9 +3,9 @@ import { BottomNav, ThemeProvider } from "@/components/shared";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "КИБЕРЩИТ — Испытание",
+  title: "КИБЕРРУБЕЖ",
   description:
-    "Интерактивная платформа кибербезопасности для граждан Республики Беларусь",
+    "Интерактивная образовательная платформа по кибербезопасности. Автор: Коноплёв Богдан Михайлович",
   manifest: "/manifest.json",
   icons: {
     icon: "/icon-192.png",
@@ -38,7 +38,7 @@ export default function RootLayout({
           <header className="hidden md:flex fixed top-0 left-20 right-0 h-14 items-center px-6 bg-card/80 backdrop-blur-md border-b border-card-border z-40">
             <span className="text-xl font-bold tracking-wide">
               <span className="mr-2">🛡️</span>
-              <span className="text-gradient">КИБЕРЩИТ</span>
+              <span className="text-gradient">КИБЕРРУБЕЖ</span>
             </span>
           </header>
 

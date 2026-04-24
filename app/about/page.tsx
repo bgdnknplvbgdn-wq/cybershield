@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, Badge } from "@/components/shared";
-import { Shield, Heart, Scale, Users, ExternalLink } from "lucide-react";
+import { Shield, Heart, Scale, Users, ExternalLink, User } from "lucide-react";
 
 export default function AboutPage() {
   return (
@@ -11,10 +11,25 @@ export default function AboutPage() {
           <Shield size={40} className="text-accent" />
         </div>
         <h1 className="text-3xl font-extrabold mb-2">
-          <span className="text-gradient">КИБЕРЩИТ</span>
+          <span className="text-gradient">КИБЕРРУБЕЖ</span>
         </h1>
-        <p className="text-muted text-sm font-mono">#КиберПраво: твой щит в сети</p>
+        <p className="text-muted text-sm font-mono">#КиберПраво</p>
       </div>
+
+      <Card className="mb-4">
+        <h2 className="font-bold text-base mb-3 flex items-center gap-2">
+          <User size={18} className="text-accent" />
+          Автор проекта
+        </h2>
+        <p className="text-sm leading-relaxed">
+          <span className="font-semibold text-accent">Коноплёв Богдан Михайлович</span>, 17 лет
+        </p>
+        <p className="text-sm text-muted leading-relaxed mt-2">
+          Проект создан в рамках республиканского конкурса для детей
+          <span className="text-accent font-semibold"> #КиберПраво</span> на лучший
+          инновационный проект по защите от кибермошенников.
+        </p>
+      </Card>
 
       <Card className="mb-4">
         <h2 className="font-bold text-base mb-3 flex items-center gap-2">
@@ -22,15 +37,14 @@ export default function AboutPage() {
           О проекте
         </h2>
         <p className="text-sm text-muted leading-relaxed">
-          «КИБЕРЩИТ» — интерактивная обучающая платформа по кибербезопасности для граждан
-          Республики Беларусь. Проект создан в рамках республиканского конкурса для детей
-          <span className="text-accent font-semibold"> #КиберПраво</span> на лучший
-          инновационный проект по защите от кибермошенников.
+          «КИБЕРРУБЕЖ» — интерактивная образовательная платформа по кибербезопасности для граждан
+          Республики Беларусь. Платформа обучает распознаванию фишинга, социальной инженерии,
+          вирусов-вымогателей и других киберугроз через интерактивные сценарии и мини-игры.
         </p>
         <p className="text-sm text-muted leading-relaxed mt-3">
-          Платформа обучает распознаванию фишинга, социальной инженерии, вирусов-вымогателей
-          и других киберугроз через интерактивные сценарии и мини-игры. Каждая миссия
-          привязана к реальным законам Республики Беларусь.
+          Каждая миссия привязана к реальным законам Республики Беларусь. Отдельный модуль
+          с ИИ-мошенником позволяет отработать навыки противодействия телефонным и
+          интернет-мошенникам в безопасной среде.
         </p>
       </Card>
 
@@ -108,7 +122,7 @@ export default function AboutPage() {
           #КиберПраво
         </Badge>
         <p className="text-muted text-xs mt-3 font-mono">
-          Республика Беларусь · 2026
+          Автор: Коноплёв Богдан Михайлович · Республика Беларусь · 2026
         </p>
         <a
           href="https://mir.pravo.by/"

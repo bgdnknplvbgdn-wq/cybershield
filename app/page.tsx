@@ -27,22 +27,22 @@ export default function HomePage() {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-extrabold mb-4 font-heading">
-          <span className="text-gradient">КИБЕРЩИТ</span>
+          <span className="text-gradient">КИБЕРРУБЕЖ</span>
         </h1>
 
         <p className="text-lg md:text-xl text-muted mb-2 font-mono">
           Ты в сети. Они в охоте.
         </p>
         <p className="text-sm text-muted/60 mb-10 max-w-md mx-auto">
-          Интерактивная платформа кибербезопасности для граждан Республики
-          Беларусь
+          Интерактивная образовательная платформа по кибербезопасности для
+          граждан Республики Беларусь
         </p>
 
         <button
           onClick={() => router.push("/missions")}
           className="btn-primary text-lg px-8 py-4 animate-pulse-glow"
         >
-          Начать испытание
+          Начать обучение
         </button>
 
         <div className="mt-12 flex items-center justify-center gap-8 text-muted text-xs font-mono">
@@ -54,7 +54,7 @@ export default function HomePage() {
         </div>
 
         <p className="mt-6 text-accent text-xs font-mono font-semibold">
-          #КиберПраво: твой щит в сети
+          #КиберПраво · Автор: Коноплёв Богдан, 17 лет
         </p>
       </div>
     </div>

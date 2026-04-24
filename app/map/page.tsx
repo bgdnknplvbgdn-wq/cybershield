@@ -6,7 +6,6 @@ import {
   Newspaper,
   ExternalLink,
   RefreshCcw,
-  Filter,
   Loader2,
   AlertTriangle,
 } from "lucide-react";
@@ -16,11 +15,8 @@ interface NewsItem {
   description: string;
   url: string;
   source: string;
-  sourceIcon: string;
   date: string;
 }
-
-const SOURCES = ["Все", "БелТА", "СБ Беларусь сегодня", "ОНТ"];
 
 function formatDate(dateStr: string): string {
   if (!dateStr) return "";
@@ -42,7 +38,6 @@ export default function NewsPage() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selectedSource, setSelectedSource] = useState("Все");
 
   const fetchNews = async () => {
     setLoading(true);
@@ -63,11 +58,6 @@ export default function NewsPage() {
     fetchNews();
   }, []);
 
-  const filtered =
-    selectedSource === "Все"
-      ? news
-      : news.filter((n) => n.source === selectedSource);
-
   return (
     <div className="px-4 md:px-8 py-6 md:py-8 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-6">
@@ -85,26 +75,9 @@ export default function NewsPage() {
         </button>
       </div>
 
-      <p className="text-muted text-sm mb-4">
-        Новости о кибербезопасности из государственных СМИ Беларуси
+      <p className="text-muted text-sm mb-6">
+        Новости о кибермошенничестве и интернет-преступлениях из государственных СМИ Беларуси
       </p>
-
-      <div className="flex items-center gap-2 mb-6 overflow-x-auto pb-2">
-        <Filter size={14} className="text-muted shrink-0" />
-        {SOURCES.map((source) => (
-          <button
-            key={source}
-            onClick={() => setSelectedSource(source)}
-            className={`px-3 py-1.5 rounded-btn text-xs font-mono whitespace-nowrap transition-all ${
-              selectedSource === source
-                ? "bg-accent text-foreground"
-                : "bg-card text-muted hover:text-foreground border border-card-border"
-            }`}
-          >
-            {source}
-          </button>
-        ))}
-      </div>
 
       {loading && (
         <div className="flex flex-col items-center justify-center py-16">
@@ -123,20 +96,18 @@ export default function NewsPage() {
         </div>
       )}
 
-      {!loading && !error && filtered.length === 0 && (
+      {!loading && !error && news.length === 0 && (
         <div className="flex flex-col items-center justify-center py-16">
           <Newspaper size={32} className="text-muted mb-3" />
           <p className="text-muted text-sm">
-            {news.length === 0
-              ? "Новости о кибербезопасности не найдены в RSS-лентах СМИ"
-              : "Нет новостей для выбранного источника"}
+            Новости о кибермошенничестве не найдены в RSS-лентах СМИ
           </p>
         </div>
       )}
 
       <div className="space-y-3">
         {!loading &&
-          filtered.map((item, i) => (
+          news.map((item, i) => (
             <a
               key={i}
               href={item.url}
@@ -146,7 +117,6 @@ export default function NewsPage() {
             >
               <Card className="hover:border-accent/50 transition-colors cursor-pointer">
                 <div className="flex items-start gap-3">
-                  <div className="text-2xl shrink-0">{item.sourceIcon}</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <Badge variant="accent">{item.source}</Badge>
@@ -175,9 +145,9 @@ export default function NewsPage() {
           ))}
       </div>
 
-      {!loading && filtered.length > 0 && (
+      {!loading && news.length > 0 && (
         <p className="text-center text-xs text-muted mt-6 font-mono">
-          Источники: БелТА · СБ Беларусь сегодня · ОНТ
+          Источники: БелТА, СБ Беларусь сегодня, ОНТ
         </p>
       )}
     </div>
