@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
 
   const apiMessages: ChatMessage[] = [
     { role: "system", content: scamPrompt.systemPrompt },
-    ...messages,
+    ...messages.filter((m) => m.role === "user" || m.role === "assistant"),
   ];
 
   try {
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         "X-Title": "CyberShield - Educational Scam Simulation",
       },
       body: JSON.stringify({
-        model: "nvidia/llama-3.1-nemotron-70b-instruct:free",
+        model: "z-ai/glm-4.5-air:free",
         messages: apiMessages,
         max_tokens: 200,
         temperature: 0.8,

@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gamepad2, Map, User, BookOpen, Info } from "lucide-react";
+import { Gamepad2, Newspaper, User, BookOpen, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/missions", label: "Миссии", icon: Gamepad2 },
-  { href: "/map", label: "Карта", icon: Map },
+  { href: "/map", label: "Новости", icon: Newspaper },
   { href: "/glossary", label: "Словарь", icon: BookOpen },
   { href: "/profile", label: "Профиль", icon: User },
   { href: "/about", label: "Инфо", icon: Info },
