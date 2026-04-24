@@ -14,8 +14,8 @@ export function BriefingView({ step, onNext }: BriefingViewProps) {
     <div className="space-y-4">
       <div className="text-center mb-6">
         <div className="text-5xl mb-4">{step.icon}</div>
-        <h2 className="text-2xl font-bold mb-2">{step.title}</h2>
-        <div className="flex items-center justify-center gap-2 text-accent text-sm font-mono">
+        <h2 className="text-2xl font-bold mb-2 font-cyber tracking-wider">{step.title}</h2>
+        <div className="flex items-center justify-center gap-2 text-accent text-xs font-mono uppercase tracking-widest">
           <BookOpen size={16} />
           <span>Брифинг</span>
         </div>
@@ -41,7 +41,7 @@ export function BriefingView({ step, onNext }: BriefingViewProps) {
       </Card>
 
       <button onClick={onNext} className="btn-primary w-full flex items-center justify-center gap-2 mt-6">
-        <span>Начать миссию</span>
+        <span className="font-cyber tracking-wider">НАЧАТЬ МИССИЮ</span>
         <ChevronRight size={18} />
       </button>
     </div>

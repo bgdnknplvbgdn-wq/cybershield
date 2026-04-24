@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Card, Badge } from "@/components/shared";
-import { BookOpen, Search } from "lucide-react";
+import { BookOpen, Search, Database } from "lucide-react";
 
 interface GlossaryTerm {
   term: string;
@@ -44,10 +44,10 @@ const terms: GlossaryTerm[] = [
 ];
 
 const categoryConfig = {
-  attack: { label: "Атака", variant: "error" as const, icon: "⚔️" },
-  defense: { label: "Защита", variant: "success" as const, icon: "🛡️" },
-  law: { label: "Закон", variant: "warning" as const, icon: "⚖️" },
-  general: { label: "Общее", variant: "accent" as const, icon: "📖" },
+  attack: { label: "АТАКА", variant: "error" as const },
+  defense: { label: "ЗАЩИТА", variant: "success" as const },
+  law: { label: "ЗАКОН", variant: "warning" as const },
+  general: { label: "ОБЩЕЕ", variant: "accent" as const },
 };
 
 export default function GlossaryPage() {
@@ -64,65 +64,83 @@ export default function GlossaryPage() {
 
   return (
     <div className="px-4 md:px-8 py-6 md:py-8 max-w-3xl mx-auto">
+      {/* Header */}
       <div className="flex items-center gap-3 mb-6">
-        <BookOpen size={28} className="text-accent" />
-        <h1 className="text-2xl md:text-3xl font-bold">Словарь</h1>
-        <Badge variant="muted">{terms.length} терминов</Badge>
+        <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/30 flex items-center justify-center">
+          <Database size={22} className="text-accent" />
+        </div>
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold font-cyber tracking-wider">СЛОВАРЬ</h1>
+          <p className="text-xs text-muted font-mono">{terms.length} ТЕРМИНОВ В БАЗЕ</p>
+        </div>
       </div>
 
+      {/* Search */}
       <div className="relative mb-4">
         <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
         <input
           type="text"
-          placeholder="Поиск термина..."
+          placeholder="ПОИСК ТЕРМИНА..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="input-field pl-10"
+          className="input-field pl-10 uppercase tracking-wider text-sm"
         />
       </div>
 
+      {/* Category filters */}
       <div className="flex gap-2 mb-6 flex-wrap">
         <button
           onClick={() => setActiveCategory(null)}
-          className={`px-3 py-1 rounded-btn text-xs font-mono transition-all ${
-            activeCategory === null ? "bg-accent text-foreground" : "bg-card border border-card-border text-muted hover:text-foreground"
+          className={`px-3 py-1.5 rounded-btn text-xs font-mono tracking-wider transition-all ${
+            activeCategory === null
+              ? "bg-accent/20 text-accent border border-accent/40"
+              : "bg-card border border-card-border text-muted hover:text-accent hover:border-accent/30"
           }`}
         >
-          Все
+          ВСЕ
         </button>
         {Object.entries(categoryConfig).map(([key, config]) => (
           <button
             key={key}
             onClick={() => setActiveCategory(activeCategory === key ? null : key)}
-            className={`px-3 py-1 rounded-btn text-xs font-mono transition-all ${
-              activeCategory === key ? "bg-accent text-foreground" : "bg-card border border-card-border text-muted hover:text-foreground"
+            className={`px-3 py-1.5 rounded-btn text-xs font-mono tracking-wider transition-all ${
+              activeCategory === key
+                ? "bg-accent/20 text-accent border border-accent/40"
+                : "bg-card border border-card-border text-muted hover:text-accent hover:border-accent/30"
             }`}
           >
-            {config.icon} {config.label}
+            {config.label}
           </button>
         ))}
       </div>
 
+      {/* Terms list */}
       <div className="space-y-2">
         {filtered.map((term) => {
           const config = categoryConfig[term.category];
           return (
             <Card key={term.term} className="p-3">
               <div className="flex items-start gap-3">
-                <span className="text-lg">{config.icon}</span>
+                <div className={`w-1 h-full min-h-[2rem] rounded-full shrink-0 ${
+                  term.category === "attack" ? "bg-error" :
+                  term.category === "defense" ? "bg-success" :
+                  term.category === "law" ? "bg-warning" : "bg-accent"
+                }`} />
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-semibold text-sm">{term.term}</span>
                     <Badge variant={config.variant}>{config.label}</Badge>
                   </div>
-                  <p className="text-xs text-muted">{term.definition}</p>
+                  <p className="text-xs text-muted font-mono leading-relaxed">{term.definition}</p>
                 </div>
               </div>
             </Card>
           );
         })}
         {filtered.length === 0 && (
-          <p className="text-center text-muted text-sm py-8">Ничего не найдено</p>
+          <Card className="text-center py-8">
+            <p className="text-muted text-sm font-mono">СОВПАДЕНИЙ НЕ НАЙДЕНО</p>
+          </Card>
         )}
       </div>
     </div>

@@ -13,10 +13,10 @@ export function DebriefingView({ step, onNext }: DebriefingViewProps) {
   return (
     <div className="space-y-4">
       <div className="text-center mb-4">
-        <div className="w-16 h-16 mx-auto rounded-full bg-success/20 flex items-center justify-center mb-3 neon-glow-success">
+        <div className="w-16 h-16 mx-auto rounded-xl bg-success/10 border border-success/30 flex items-center justify-center mb-3 neon-glow-success">
           <Trophy size={32} className="text-success" />
         </div>
-        <h2 className="text-xl font-bold text-success">{step.title}</h2>
+        <h2 className="text-xl font-bold text-success font-cyber tracking-wider">{step.title}</h2>
       </div>
 
       <Card>
@@ -51,7 +51,7 @@ export function DebriefingView({ step, onNext }: DebriefingViewProps) {
       </Card>
 
       <button onClick={onNext} className="btn-primary w-full flex items-center justify-center gap-2 mt-4">
-        <span>Завершить миссию</span>
+        <span className="font-cyber tracking-wider">ЗАВЕРШИТЬ МИССИЮ</span>
         <ChevronRight size={18} />
       </button>
     </div>

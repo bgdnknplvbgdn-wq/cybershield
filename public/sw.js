@@ -1,4 +1,4 @@
-const CACHE_NAME = "cyberrubezh-v3";
+const CACHE_NAME = "cyberrubezh-v4";
 const STATIC_ASSETS = ["/", "/missions", "/map", "/glossary", "/profile", "/about"];
 
 self.addEventListener("install", (event) => {
