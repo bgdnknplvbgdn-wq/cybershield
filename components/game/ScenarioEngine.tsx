@@ -103,16 +103,19 @@ export function ScenarioEngine({ scenario, onComplete, onBack }: ScenarioEngineP
       </div>
 
       <div className="mt-6 animate-fadeIn" key={currentStep}>
-        {renderStep(step, handleStepComplete, handleNext)}
+        {renderStep(step, handleStepComplete, handleNext, scenario.difficulty)}
       </div>
     </div>
   );
 }
 
+const xpRewardMap: Record<number, number> = { 1: 10, 2: 20, 3: 30 };
+
 function renderStep(
   step: ScenarioStep,
   onComplete: (score: number, maxScore: number) => void,
   onNext: () => void,
+  difficulty: 1 | 2 | 3,
 ) {
   switch (step.type) {
     case "briefing":
@@ -144,7 +147,7 @@ function renderStep(
     case "url-analyzer":
       return <URLAnalyzer step={step} onComplete={onComplete} />;
     case "debriefing":
-      return <DebriefingView step={step} onNext={onNext} />;
+      return <DebriefingView step={step} onNext={onNext} xpReward={xpRewardMap[difficulty] || 10} />;
     default:
       return <div>Неизвестный тип шага</div>;
   }

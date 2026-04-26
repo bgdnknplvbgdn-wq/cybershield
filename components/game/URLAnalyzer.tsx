@@ -65,7 +65,7 @@ export function URLAnalyzer({ step, onComplete }: URLAnalyzerProps) {
                 <span className={url.isHttps ? "text-success" : "text-error"}>
                   {url.isHttps ? "https" : "http"}://
                 </span>
-                <span className={url.dangerous ? "text-error font-bold" : "text-foreground"}>
+                <span className={answered && url.dangerous ? "text-error font-bold" : answered && !url.dangerous ? "text-success" : "text-foreground"}>
                   {url.displayDomain}
                 </span>
                 <span className="text-muted">{url.path}</span>
