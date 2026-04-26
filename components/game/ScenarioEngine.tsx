@@ -13,6 +13,7 @@ import { SmartHomeMap } from "./SmartHomeMap";
 import { DataLeakCheck } from "./DataLeakCheck";
 import { LawMatch } from "./LawMatch";
 import { AIScamChat } from "./AIScamChat";
+import FileScanner from "./FileScanner";
 import { DebriefingView } from "./DebriefingView";
 import { QuizView } from "./QuizView";
 import { ArrowLeft } from "lucide-react";
@@ -111,6 +112,8 @@ function renderStep(
       return <LawMatch step={step} onComplete={onComplete} />;
     case "ai-scam-chat":
       return <AIScamChat step={step} onComplete={onComplete} />;
+    case "file-scanner":
+      return <FileScanner step={step} onComplete={() => onComplete(1, 1)} />;
     case "debriefing":
       return <DebriefingView step={step} onNext={onNext} />;
     default:

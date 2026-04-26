@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getScamPrompt } from "@/lib/scam-prompts";
+import { getFallbackResponse } from "@/lib/scam-fallbacks";
 import type { ScamScenarioId } from "@/lib/scenario-types";
 
 interface ChatMessage {
@@ -8,6 +9,47 @@ interface ChatMessage {
 }
 
 const VALID_SCENARIOS: ScamScenarioId[] = ["bank", "email", "intercom", "classmate"];
+
+const AI_MODELS = [
+  "google/gemma-3-4b-it:free",
+  "meta-llama/llama-3.1-8b-instruct:free",
+  "mistralai/mistral-small-3.1-24b-instruct:free",
+];
+
+async function tryAIModel(
+  apiKey: string,
+  model: string,
+  apiMessages: ChatMessage[]
+): Promise<string | null> {
+  try {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+        "HTTP-Referer": "https://cyberrubezh.vercel.app",
+        "X-Title": "CyberRubezh - Educational Scam Simulation",
+      },
+      body: JSON.stringify({
+        model,
+        messages: apiMessages,
+        max_tokens: 300,
+        temperature: 0.8,
+      }),
+    });
+
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content;
+
+    if (!reply || reply.trim().length < 10) return null;
+
+    return reply.trim();
+  } catch {
+    return null;
+  }
+}
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.OPENROUTER_API_KEY;
@@ -42,41 +84,15 @@ export async function POST(req: NextRequest) {
     ...messages.filter((m) => m.role === "user" || m.role === "assistant"),
   ];
 
-  try {
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-        "HTTP-Referer": "https://cyberrubezh.app",
-        "X-Title": "CyberRubezh - Educational Scam Simulation",
-      },
-      body: JSON.stringify({
-        model: "z-ai/glm-4.5-air:free",
-        messages: apiMessages,
-        max_tokens: 200,
-        temperature: 0.8,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.text();
-      console.error("OpenRouter error:", errorData);
-      return NextResponse.json(
-        { error: "Ошибка AI сервиса. Попробуйте позже." },
-        { status: 502 }
-      );
+  for (const model of AI_MODELS) {
+    const reply = await tryAIModel(apiKey, model, apiMessages);
+    if (reply) {
+      return NextResponse.json({ reply });
     }
-
-    const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content || "...";
-
-    return NextResponse.json({ reply });
-  } catch (err) {
-    console.error("AI request failed:", err);
-    return NextResponse.json(
-      { error: "Не удалось связаться с AI сервисом" },
-      { status: 502 }
-    );
   }
+
+  const userMessage = messages.filter((m) => m.role === "user").pop()?.content || "";
+  const messageCount = messages.filter((m) => m.role === "user").length;
+  const fallback = getFallbackResponse(scenarioId, userMessage, messageCount);
+  return NextResponse.json({ reply: fallback });
 }
