@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
   }
 
   const userMessage = messages.filter((m) => m.role === "user").pop()?.content || "";
-  const messageCount = messages.filter((m) => m.role === "user").length;
-  const fallback = getFallbackResponse(scenarioId, userMessage, messageCount);
+  const messageIndex = Math.max(0, messages.filter((m) => m.role === "user").length - 1);
+  const fallback = getFallbackResponse(scenarioId, userMessage, messageIndex);
   return NextResponse.json({ reply: fallback });
 }
