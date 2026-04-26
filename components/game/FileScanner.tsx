@@ -48,10 +48,12 @@ export default function FileScanner({ step, onComplete }: FileScannerProps) {
           const isDangerous = file.dangerous;
 
           let borderClass = "border-card-border hover:border-accent/50";
+          let animClass = "";
           if (isRevealed && isDangerous) {
             borderClass = "border-error/50";
+            animClass = "animate-threat-pulse";
           } else if (isRevealed && !isDangerous) {
-            borderClass = "border-success/50";
+            borderClass = "border-success/50 animate-success-reveal";
           }
 
           return (
@@ -59,7 +61,7 @@ export default function FileScanner({ step, onComplete }: FileScannerProps) {
               key={i}
               onClick={() => handleScan(i)}
               disabled={isRevealed}
-              className={`w-full text-left p-3 rounded-lg border bg-card-alt transition-all ${borderClass} cyber-corners`}
+              className={`w-full text-left p-3 rounded-lg border bg-card-alt transition-all ${borderClass} ${animClass} cyber-corners`}
             >
               <div className="flex items-center gap-3">
                 <span className="text-xl">{file.icon}</span>
@@ -106,22 +108,22 @@ export default function FileScanner({ step, onComplete }: FileScannerProps) {
       </div>
 
       {completed && (
-        <>
+        <div className="space-y-3 animate-slide-in-up">
           <Card glow="success" className="p-3">
             <div className="flex items-center gap-2">
               <CheckCircle2 size={18} className="text-success" />
               <p className="text-sm font-semibold text-success font-cyber tracking-wider">
-                Найдено {foundDangerous} из {dangerousCount} опасных файлов!
+                НАЙДЕНО {foundDangerous} ИЗ {dangerousCount} УГРОЗ
               </p>
             </div>
           </Card>
           <button 
             onClick={onComplete} 
-            className="w-full py-3 rounded-btn bg-accent text-background font-cyber tracking-wider uppercase text-sm font-bold hover:bg-accent/90 transition-colors flex items-center justify-center gap-2"
+            className="btn-primary w-full flex items-center justify-center gap-2 font-cyber tracking-wider"
           >
-            Далее <ArrowRight size={16} />
+            ДАЛЕЕ <ArrowRight size={16} />
           </button>
-        </>
+        </div>
       )}
     </div>
   );

@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useGameStore } from "@/store";
 import { Card, Badge } from "@/components/shared";
 import { scenarios } from "@/data/scenarios";
-import { Shield, CheckCircle2, Lock, ChevronRight, Zap, Target } from "lucide-react";
+import { getMissionTheme } from "@/lib/mission-themes";
+import { Shield, CheckCircle2, ChevronRight, Zap, Target } from "lucide-react";
 import { useEffect } from "react";
 
 const difficultyLabel: Record<
@@ -69,6 +70,7 @@ export default function MissionsPage() {
         {scenarios.map((scenario) => {
           const completed = isLevelCompleted(scenario.id);
           const diff = difficultyLabel[scenario.difficulty];
+          const theme = getMissionTheme(scenario.type);
 
           return (
             <Link
@@ -81,14 +83,18 @@ export default function MissionsPage() {
                 glow={completed ? "success" : "none"}
               >
                 <div className="flex items-center gap-4">
-                  {/* Mission number */}
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-lg shrink-0 font-cyber font-bold clip-corner ${
-                    completed
-                      ? "bg-success/10 border border-success/30 text-success neon-glow-success"
-                      : "bg-card-alt border border-card-border text-accent"
-                  }`}>
+                  {/* Mission number with theme color */}
+                  <div
+                    className="w-12 h-12 rounded-lg flex items-center justify-center text-lg shrink-0 font-cyber font-bold clip-corner border transition-all"
+                    style={completed ? undefined : {
+                      borderColor: `rgba(${theme.accentRgb}, 0.3)`,
+                      background: `rgba(${theme.accentRgb}, 0.1)`,
+                      color: theme.accent,
+                      boxShadow: `0 0 15px rgba(${theme.accentRgb}, 0.15)`,
+                    }}
+                  >
                     {completed ? (
-                      <CheckCircle2 size={22} />
+                      <CheckCircle2 size={22} className="text-success" />
                     ) : (
                       <span className="text-sm">{String(scenario.id).padStart(2, "0")}</span>
                     )}
@@ -97,6 +103,16 @@ export default function MissionsPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <Badge variant={diff.variant}>{diff.text}</Badge>
+                      <span
+                        className="text-[9px] font-mono px-1.5 py-0.5 rounded border uppercase tracking-widest"
+                        style={{
+                          color: theme.accent,
+                          borderColor: `rgba(${theme.accentRgb}, 0.3)`,
+                          background: `rgba(${theme.accentRgb}, 0.08)`,
+                        }}
+                      >
+                        {theme.label}
+                      </span>
                       {completed && (
                         <span className="text-[10px] text-success font-mono uppercase">ПРОЙДЕНО</span>
                       )}
@@ -111,6 +127,12 @@ export default function MissionsPage() {
 
                   <ChevronRight size={18} className="text-muted group-hover:text-accent transition-colors shrink-0" />
                 </div>
+
+                {/* Themed accent line at bottom */}
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-[2px] opacity-40 group-hover:opacity-80 transition-opacity"
+                  style={{ background: `linear-gradient(90deg, transparent, ${theme.accent}, transparent)` }}
+                />
               </Card>
             </Link>
           );

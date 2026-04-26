@@ -83,18 +83,18 @@ export default function HomePage() {
         </button>
 
         {/* Stats bar */}
-        <div className="mt-12 flex items-center justify-center gap-6 text-muted text-xs font-mono">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-accent rounded-full" />
-            <span>14 МИССИЙ</span>
+        <div className="mt-12 grid grid-cols-3 gap-3 max-w-sm mx-auto">
+          <div className="card-base py-3 px-2 text-center border-accent/20">
+            <div className="text-2xl font-cyber font-bold text-accent mb-0.5">14</div>
+            <div className="text-[10px] text-muted font-mono uppercase tracking-wider">Миссий</div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-neon-blue rounded-full" />
-            <span>5 РАНГОВ</span>
+          <div className="card-base py-3 px-2 text-center border-neon-blue/20">
+            <div className="text-2xl font-cyber font-bold text-neon-blue mb-0.5">11</div>
+            <div className="text-[10px] text-muted font-mono uppercase tracking-wider">Мини-игр</div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-neon rounded-full" />
-            <span>AI МОШЕННИК</span>
+          <div className="card-base py-3 px-2 text-center border-neon-pink/20">
+            <div className="text-2xl font-cyber font-bold text-neon-pink mb-0.5">AI</div>
+            <div className="text-[10px] text-muted font-mono uppercase tracking-wider">Мошенник</div>
           </div>
         </div>
 

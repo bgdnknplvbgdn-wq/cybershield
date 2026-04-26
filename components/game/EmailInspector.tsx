@@ -94,11 +94,11 @@ export function EmailInspector({ step, onComplete }: EmailInspectorProps) {
 
       {found.size > 0 && (
         <div className="space-y-2">
-          <p className="text-xs text-muted font-mono">ОБНАРУЖЕНО:</p>
+          <p className="text-xs text-muted font-mono uppercase tracking-wider">Обнаружено угроз: {found.size}</p>
           {step.suspiciousElements
             .filter((el) => found.has(el.id))
             .map((el) => (
-              <Card key={el.id} className="bg-error/5 border-error/20 p-3">
+              <Card key={el.id} className="bg-error/5 border-error/20 p-3 animate-slide-in-up animate-threat-pulse">
                 <div className="flex items-start gap-2">
                   <AlertTriangle size={14} className="text-error shrink-0 mt-0.5" />
                   <div>
@@ -112,20 +112,20 @@ export function EmailInspector({ step, onComplete }: EmailInspectorProps) {
       )}
 
       {completed && (
-        <div className="space-y-3">
-          <Card className="bg-success/5 border-success/20">
+        <div className="space-y-3 animate-slide-in-up">
+          <Card className="bg-success/5 border-success/20 neon-glow-success">
             <div className="flex items-center gap-2">
               <CheckCircle2 size={18} className="text-success" />
-              <span className="text-sm font-semibold text-success">
-                {allFound ? "Все элементы найдены!" : `Найдено ${found.size} из ${step.suspiciousElements.length} — отлично!`}
+              <span className="text-sm font-semibold text-success font-cyber tracking-wider">
+                {allFound ? "ВСЕ УГРОЗЫ ОБНАРУЖЕНЫ" : `НАЙДЕНО ${found.size} ИЗ ${step.suspiciousElements.length}`}
               </span>
             </div>
           </Card>
           <button
             onClick={() => onComplete(found.size, step.suspiciousElements.length)}
-            className="btn-primary w-full flex items-center justify-center gap-2"
+            className="btn-primary w-full flex items-center justify-center gap-2 font-cyber tracking-wider"
           >
-            <span>Далее</span>
+            <span>ДАЛЕЕ</span>
             <ChevronRight size={18} />
           </button>
         </div>

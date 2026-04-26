@@ -36,6 +36,51 @@ export const scenarios: Scenario[] = [
         minToFind: 3
       },
       {
+        type: "url-analyzer",
+        urls: [
+          {
+            displayDomain: "belarusbank.by",
+            path: "/online/login",
+            isHttps: true,
+            dangerous: false,
+            context: "Ссылка из закладок браузера",
+            explanation: "Это официальный домен Беларусбанка с HTTPS — безопасно."
+          },
+          {
+            displayDomain: "beIarusbank.by",
+            path: "/verify-card",
+            isHttps: true,
+            dangerous: true,
+            context: "Ссылка из письма «Подтвердите данные карты»",
+            explanation: "Подделка! Буква «I» (заглавная i) вместо «l» (строчная L). Мошенники регистрируют похожие домены."
+          },
+          {
+            displayDomain: "steam-community.com.ru",
+            path: "/gifts/free-skins",
+            isHttps: false,
+            dangerous: true,
+            context: "Ссылка из сообщения «Бесплатные скины CS2»",
+            explanation: "Реальный Steam — steampowered.com и steamcommunity.com. Домен .com.ru — подделка, к тому же без HTTPS!"
+          },
+          {
+            displayDomain: "instagram.com",
+            path: "/accounts/login",
+            isHttps: true,
+            dangerous: false,
+            context: "Ссылка из приложения Instagram",
+            explanation: "Официальный домен Instagram с HTTPS — безопасно."
+          },
+          {
+            displayDomain: "aliexpress-sale.top",
+            path: "/promo/iphone-1byn",
+            isHttps: true,
+            dangerous: true,
+            context: "Ссылка из рекламы «iPhone за 1 рубль»",
+            explanation: "Домен .top не имеет отношения к AliExpress (aliexpress.com). Даже HTTPS не гарантирует подлинность!"
+          }
+        ]
+      },
+      {
         type: "quiz",
         question: "Тебе пришло письмо: «Ваш аккаунт Steam заблокирован! Войдите по ссылке steampowered-support.com». Что делать?",
         options: [

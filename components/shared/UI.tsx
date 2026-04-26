@@ -6,6 +6,7 @@ interface CardProps {
   className?: string;
   glow?: "accent" | "success" | "error" | "none";
   onClick?: () => void;
+  style?: React.CSSProperties;
 }
 
 export function Card({
@@ -13,6 +14,7 @@ export function Card({
   className,
   glow = "none",
   onClick,
+  style,
 }: CardProps) {
   const glowClass = {
     accent: "neon-glow",
@@ -25,6 +27,7 @@ export function Card({
     <div
       className={cn("card-base cyber-corners", glowClass, onClick && "cursor-pointer", className)}
       onClick={onClick}
+      style={style}
     >
       {children}
     </div>

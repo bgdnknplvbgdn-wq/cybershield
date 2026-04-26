@@ -12,6 +12,7 @@ export type StepType =
   | "law-match"
   | "ai-scam-chat"
   | "file-scanner"
+  | "url-analyzer"
   | "debriefing";
 
 export interface BriefingStep {
@@ -179,6 +180,18 @@ export interface FileScannerStep {
   minToFind: number;
 }
 
+export interface URLAnalyzerStep {
+  type: "url-analyzer";
+  urls: {
+    displayDomain: string;
+    path: string;
+    isHttps: boolean;
+    dangerous: boolean;
+    context: string;
+    explanation: string;
+  }[];
+}
+
 export type ScenarioStep =
   | BriefingStep
   | QuizStep
@@ -193,6 +206,7 @@ export type ScenarioStep =
   | LawMatchStep
   | AIScamChatStep
   | FileScannerStep
+  | URLAnalyzerStep
   | DebriefingStep;
 
 export interface Scenario {

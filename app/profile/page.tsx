@@ -15,6 +15,25 @@ import {
   Award,
 } from "lucide-react";
 
+interface Achievement {
+  id: string;
+  icon: string;
+  title: string;
+  desc: string;
+  condition: (completed: number, xp: number) => boolean;
+}
+
+const achievements: Achievement[] = [
+  { id: "first", icon: "🎯", title: "ПЕРВЫЙ ШАГ", desc: "Пройди 1 миссию", condition: (c) => c >= 1 },
+  { id: "five", icon: "⭐", title: "ПЯТЁРКА", desc: "Пройди 5 миссий", condition: (c) => c >= 5 },
+  { id: "ten", icon: "🔥", title: "ДЕСЯТКА", desc: "Пройди 10 миссий", condition: (c) => c >= 10 },
+  { id: "all", icon: "👑", title: "МАСТЕР", desc: "Пройди все 14 миссий", condition: (c) => c >= 14 },
+  { id: "xp100", icon: "⚡", title: "ЗАРЯДКА", desc: "Набери 100 XP", condition: (_, xp) => xp >= 100 },
+  { id: "xp500", icon: "💎", title: "АЛМАЗ", desc: "Набери 500 XP", condition: (_, xp) => xp >= 500 },
+  { id: "xp1000", icon: "🏆", title: "ЛЕГЕНДА", desc: "Набери 1000 XP", condition: (_, xp) => xp >= 1000 },
+  { id: "half", icon: "🛡️", title: "ПОЛОВИНА", desc: "Пройди 7 миссий", condition: (c) => c >= 7 },
+];
+
 export default function ProfilePage() {
   const { progress, xp, rank, loadProgress, isLevelCompleted } = useGameStore();
 
@@ -136,6 +155,33 @@ export default function ProfilePage() {
                   <ChevronRight size={16} className="text-accent" />
                 )}
               </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Achievements */}
+      <div className="mb-6">
+        <h3 className="font-semibold text-sm mb-3 text-muted font-mono uppercase tracking-widest flex items-center gap-2">
+          <Award size={14} />
+          ДОСТИЖЕНИЯ
+        </h3>
+        <div className="grid grid-cols-2 gap-2">
+          {achievements.map((ach) => {
+            const unlocked = ach.condition(completedCount, xp);
+            return (
+              <Card
+                key={ach.id}
+                className={`p-3 transition-all ${
+                  unlocked
+                    ? "border-warning/30 bg-warning/5"
+                    : "opacity-40"
+                }`}
+              >
+                <div className="text-2xl mb-1">{ach.icon}</div>
+                <p className="text-xs font-bold font-cyber tracking-wider">{ach.title}</p>
+                <p className="text-[10px] text-muted font-mono mt-0.5">{ach.desc}</p>
+              </Card>
             );
           })}
         </div>
