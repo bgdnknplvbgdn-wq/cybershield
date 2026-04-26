@@ -11,6 +11,8 @@ export type StepType =
   | "data-leak-check"
   | "law-match"
   | "ai-scam-chat"
+  | "file-scanner"
+  | "url-analyzer"
   | "debriefing";
 
 export interface BriefingStep {
@@ -165,6 +167,31 @@ export interface DebriefingStep {
   tips: string[];
 }
 
+export interface FileScannerStep {
+  type: "file-scanner";
+  files: {
+    name: string;
+    icon: string;
+    size: string;
+    source: string;
+    dangerous: boolean;
+    reason: string;
+  }[];
+  minToFind: number;
+}
+
+export interface URLAnalyzerStep {
+  type: "url-analyzer";
+  urls: {
+    displayDomain: string;
+    path: string;
+    isHttps: boolean;
+    dangerous: boolean;
+    context: string;
+    explanation: string;
+  }[];
+}
+
 export type ScenarioStep =
   | BriefingStep
   | QuizStep
@@ -178,6 +205,8 @@ export type ScenarioStep =
   | DataLeakCheckStep
   | LawMatchStep
   | AIScamChatStep
+  | FileScannerStep
+  | URLAnalyzerStep
   | DebriefingStep;
 
 export interface Scenario {

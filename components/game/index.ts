@@ -11,4 +11,5 @@ export { SmartHomeMap } from "./SmartHomeMap";
 export { DataLeakCheck } from "./DataLeakCheck";
 export { LawMatch } from "./LawMatch";
 export { AIScamChat } from "./AIScamChat";
+export { default as FileScanner } from "./FileScanner";
 export { DebriefingView } from "./DebriefingView";
