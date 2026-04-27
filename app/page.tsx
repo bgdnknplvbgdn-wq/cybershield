@@ -69,7 +69,6 @@ export default function HomePage() {
 
         <p className="text-sm text-muted/80 mb-10 max-w-md mx-auto font-mono">
           Интерактивная образовательная платформа по кибербезопасности
-          для граждан Республики Беларусь
         </p>
 
         {/* CTA Button */}

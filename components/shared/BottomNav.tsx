@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Gamepad2, Newspaper, User, BookOpen, Info } from "lucide-react";
+import { Home, Gamepad2, Newspaper, User, BookOpen, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
+  { href: "/", label: "ГЛАВНАЯ", icon: Home, exact: true },
   { href: "/missions", label: "МИССИИ", icon: Gamepad2 },
   { href: "/map", label: "НОВОСТИ", icon: Newspaper },
   { href: "/glossary", label: "СЛОВАРЬ", icon: BookOpen },
-  { href: "/profile", label: "ПРОФИЛЬ", icon: User },
   { href: "/about", label: "ИНФО", icon: Info },
 ];
 
@@ -27,7 +27,7 @@ export default function BottomNav() {
         </div>
         <div className="flex flex-col gap-1 flex-1 items-center justify-center">
           {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.href);
+            const isActive = ("exact" in item && item.exact) ? pathname === item.href : pathname.startsWith(item.href);
             const Icon = item.icon;
             return (
               <Link
@@ -59,7 +59,7 @@ export default function BottomNav() {
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card/95 border-t border-card-border/50 z-50 safe-bottom backdrop-blur-md">
         <div className="flex items-center justify-around h-16">
           {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.href);
+            const isActive = ("exact" in item && item.exact) ? pathname === item.href : pathname.startsWith(item.href);
             const Icon = item.icon;
             return (
               <Link
