@@ -115,8 +115,10 @@ export default function GlossaryPage() {
     setSearch("");
     setActiveCategory(null);
     setExpandedTerm(randomTerm.term);
-    const el = document.getElementById(`term-${randomTerm.term}`);
-    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => {
+      const el = document.getElementById(`term-${randomTerm.term}`);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 0);
   };
 
   const categoryCounts = useMemo(() => {
