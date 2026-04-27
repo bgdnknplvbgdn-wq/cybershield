@@ -16,14 +16,14 @@ interface ChatMessage {
   isCorrect?: boolean;
 }
 
-function getCallerAvatar(callerName: string): { emoji: string; color: string; bgColor: string } {
+function getCallerAvatar(callerName: string): { emoji: string; color: string; bgColor: string; hex: string } {
   const name = callerName.toLowerCase();
-  if (name.includes("банк") || name.includes("сотрудник")) return { emoji: "🏦", color: "text-yellow-400", bgColor: "bg-yellow-500/20" };
-  if (name.includes("друг") || name.includes("одноклассн") || name.includes("знакомый")) return { emoji: "👤", color: "text-purple-400", bgColor: "bg-purple-500/20" };
-  if (name.includes("почт") || name.includes("доставк")) return { emoji: "📦", color: "text-blue-400", bgColor: "bg-blue-500/20" };
-  if (name.includes("мастер") || name.includes("домофон") || name.includes("техник")) return { emoji: "🔧", color: "text-orange-400", bgColor: "bg-orange-500/20" };
-  if (name.includes("начальн") || name.includes("директор")) return { emoji: "👔", color: "text-cyan-400", bgColor: "bg-cyan-500/20" };
-  return { emoji: "📞", color: "text-error", bgColor: "bg-error/20" };
+  if (name.includes("банк") || name.includes("сотрудник")) return { emoji: "🏦", color: "text-yellow-400", bgColor: "bg-yellow-500/20", hex: "#eab308" };
+  if (name.includes("друг") || name.includes("одноклассн") || name.includes("знакомый")) return { emoji: "👤", color: "text-purple-400", bgColor: "bg-purple-500/20", hex: "#a855f7" };
+  if (name.includes("почт") || name.includes("доставк")) return { emoji: "📦", color: "text-blue-400", bgColor: "bg-blue-500/20", hex: "#3b82f6" };
+  if (name.includes("мастер") || name.includes("домофон") || name.includes("техник")) return { emoji: "🔧", color: "text-orange-400", bgColor: "bg-orange-500/20", hex: "#f97316" };
+  if (name.includes("начальн") || name.includes("директор")) return { emoji: "👔", color: "text-cyan-400", bgColor: "bg-cyan-500/20", hex: "#22d3ee" };
+  return { emoji: "📞", color: "text-error", bgColor: "bg-error/20", hex: "#ef4444" };
 }
 
 export function DialogScene({ step, onComplete }: DialogSceneProps) {
@@ -108,8 +108,8 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
         <div className="text-center py-8">
           <div className="w-24 h-24 mx-auto rounded-2xl border-2 flex items-center justify-center mb-4 relative"
             style={{
-              borderColor: `color-mix(in srgb, ${callerAvatar.color === "text-yellow-400" ? "#eab308" : callerAvatar.color === "text-purple-400" ? "#a855f7" : callerAvatar.color === "text-blue-400" ? "#3b82f6" : callerAvatar.color === "text-orange-400" ? "#f97316" : "#ef4444"} 40%, transparent)`,
-              background: `color-mix(in srgb, ${callerAvatar.color === "text-yellow-400" ? "#eab308" : callerAvatar.color === "text-purple-400" ? "#a855f7" : callerAvatar.color === "text-blue-400" ? "#3b82f6" : callerAvatar.color === "text-orange-400" ? "#f97316" : "#ef4444"} 10%, transparent)`,
+              borderColor: `color-mix(in srgb, ${callerAvatar.hex} 40%, transparent)`,
+              background: `color-mix(in srgb, ${callerAvatar.hex} 10%, transparent)`,
             }}
           >
             <span className="text-5xl">{callerAvatar.emoji}</span>
