@@ -8,6 +8,7 @@ import { Trophy, Shield, Scale, Lightbulb, ChevronRight, Award, Star } from "luc
 interface DebriefingViewProps {
   step: DebriefingStep;
   onNext: () => void;
+  xpReward?: number;
 }
 
 function Confetti() {
@@ -26,7 +27,7 @@ function Confetti() {
   );
 }
 
-export function DebriefingView({ step, onNext }: DebriefingViewProps) {
+export function DebriefingView({ step, onNext, xpReward = 10 }: DebriefingViewProps) {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export function DebriefingView({ step, onNext }: DebriefingViewProps) {
         <div className="flex items-center justify-center gap-2 mt-2">
           <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-warning/10 border border-warning/30">
             <Star size={14} className="text-warning" />
-            <span className="text-xs font-mono text-warning font-bold">+100 XP</span>
+            <span className="text-xs font-mono text-warning font-bold">+{xpReward} XP</span>
           </div>
           <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-accent/10 border border-accent/30">
             <Award size={14} className="text-accent" />

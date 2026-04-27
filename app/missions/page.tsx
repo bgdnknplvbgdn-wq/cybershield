@@ -85,7 +85,7 @@ export default function MissionsPage() {
                 <div className="flex items-center gap-4">
                   {/* Mission number with theme color */}
                   <div
-                    className="w-12 h-12 rounded-lg flex items-center justify-center text-lg shrink-0 font-cyber font-bold clip-corner border transition-all"
+                    className={`w-12 h-12 rounded-lg flex items-center justify-center text-lg shrink-0 font-cyber font-bold clip-corner border transition-all ${completed ? "bg-success/10 border-success/30 text-success neon-glow-success" : ""}`}
                     style={completed ? undefined : {
                       borderColor: `rgba(${theme.accentRgb}, 0.3)`,
                       background: `rgba(${theme.accentRgb}, 0.1)`,
