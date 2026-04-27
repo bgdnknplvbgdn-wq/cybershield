@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { DialogStep, DialogChoice } from "@/lib/scenario-types";
 import { Card, Badge } from "@/components/shared";
-import { Phone, CheckCircle2, XCircle, ChevronRight, User, Shield } from "lucide-react";
+import { Phone, CheckCircle2, XCircle, ChevronRight, Shield, Building2, UserCircle, Clock } from "lucide-react";
 
 interface DialogSceneProps {
   step: DialogStep;
@@ -16,6 +16,16 @@ interface ChatMessage {
   isCorrect?: boolean;
 }
 
+function getCallerAvatar(callerName: string): { emoji: string; color: string; bgColor: string } {
+  const name = callerName.toLowerCase();
+  if (name.includes("банк") || name.includes("сотрудник")) return { emoji: "🏦", color: "text-yellow-400", bgColor: "bg-yellow-500/20" };
+  if (name.includes("друг") || name.includes("одноклассн") || name.includes("знакомый")) return { emoji: "👤", color: "text-purple-400", bgColor: "bg-purple-500/20" };
+  if (name.includes("почт") || name.includes("доставк")) return { emoji: "📦", color: "text-blue-400", bgColor: "bg-blue-500/20" };
+  if (name.includes("мастер") || name.includes("домофон") || name.includes("техник")) return { emoji: "🔧", color: "text-orange-400", bgColor: "bg-orange-500/20" };
+  if (name.includes("начальн") || name.includes("директор")) return { emoji: "👔", color: "text-cyan-400", bgColor: "bg-cyan-500/20" };
+  return { emoji: "📞", color: "text-error", bgColor: "bg-error/20" };
+}
+
 export function DialogScene({ step, onComplete }: DialogSceneProps) {
   const [messageIndex, setMessageIndex] = useState(0);
   const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
@@ -24,6 +34,8 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
   const [finished, setFinished] = useState(false);
   const [showChoices, setShowChoices] = useState(false);
   const [currentChoices, setCurrentChoices] = useState<DialogChoice[] | null>(null);
+
+  const callerAvatar = getCallerAvatar(step.callerName);
 
   const processNextMessage = (idx: number) => {
     if (idx >= step.messages.length) {
@@ -94,9 +106,16 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
     return (
       <div className="space-y-4">
         <div className="text-center py-8">
-          <div className="w-24 h-24 mx-auto rounded-xl bg-error/10 border border-error/30 flex items-center justify-center mb-4 neon-glow-error relative">
-            <Phone size={40} className="text-error" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-error rounded-full animate-cyber-pulse" />
+          <div className="w-24 h-24 mx-auto rounded-2xl border-2 flex items-center justify-center mb-4 relative"
+            style={{
+              borderColor: `color-mix(in srgb, ${callerAvatar.color === "text-yellow-400" ? "#eab308" : callerAvatar.color === "text-purple-400" ? "#a855f7" : callerAvatar.color === "text-blue-400" ? "#3b82f6" : callerAvatar.color === "text-orange-400" ? "#f97316" : "#ef4444"} 40%, transparent)`,
+              background: `color-mix(in srgb, ${callerAvatar.color === "text-yellow-400" ? "#eab308" : callerAvatar.color === "text-purple-400" ? "#a855f7" : callerAvatar.color === "text-blue-400" ? "#3b82f6" : callerAvatar.color === "text-orange-400" ? "#f97316" : "#ef4444"} 10%, transparent)`,
+            }}
+          >
+            <span className="text-5xl">{callerAvatar.emoji}</span>
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-error rounded-full animate-cyber-pulse flex items-center justify-center">
+              <Phone size={10} className="text-white" />
+            </div>
           </div>
           <h3 className="text-xl font-bold mb-2 font-cyber tracking-wider">ВХОДЯЩИЙ ЗВОНОК</h3>
           <p className="text-error text-sm font-mono mb-1">{step.callerName}</p>
@@ -112,7 +131,9 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 mb-2 px-2">
-        <Phone size={16} className="text-error" />
+        <div className={`w-6 h-6 rounded-full ${callerAvatar.bgColor} flex items-center justify-center`}>
+          <span className="text-xs">{callerAvatar.emoji}</span>
+        </div>
         <span className="text-sm font-mono text-error">Звонок: {step.callerName}</span>
       </div>
 
@@ -123,26 +144,26 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
             className={`flex ${msg.sender === "player" ? "justify-end" : msg.sender === "system" ? "justify-center" : "justify-start"}`}
           >
             {msg.sender === "system" ? (
-              <div className="bg-accent/10 border border-accent/20 rounded-btn px-3 py-2 max-w-[85%]">
+              <div className="bg-accent/10 rounded-xl px-3 py-2 max-w-[85%]">
                 <p className="text-xs text-accent">{msg.text}</p>
               </div>
             ) : (
               <div className={`flex items-end gap-2 max-w-[85%] ${msg.sender === "player" ? "flex-row-reverse" : ""}`}>
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
-                  msg.sender === "caller" ? "bg-error/20" : "bg-accent/20"
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                  msg.sender === "caller" ? callerAvatar.bgColor : "bg-accent/20"
                 }`}>
                   {msg.sender === "caller" ? (
-                    <User size={14} className="text-error" />
+                    <span className="text-sm">{callerAvatar.emoji}</span>
                   ) : (
-                    <Shield size={14} className="text-accent" />
+                    <Shield size={16} className="text-accent" />
                   )}
                 </div>
                 <div className={`rounded-2xl px-3 py-2 ${
                   msg.sender === "caller"
-                    ? "bg-card border border-card-border rounded-bl-sm"
+                    ? "bg-card/80 rounded-bl-sm"
                     : msg.isCorrect
-                    ? "bg-success/20 border border-success/30 rounded-br-sm"
-                    : "bg-error/20 border border-error/30 rounded-br-sm"
+                    ? "bg-success/15 rounded-br-sm"
+                    : "bg-error/15 rounded-br-sm"
                 }`}>
                   <p className="text-sm">{msg.text}</p>
                   {msg.sender === "player" && msg.isCorrect !== undefined && (
@@ -165,13 +186,13 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
       </div>
 
       {showChoices && currentChoices && (
-        <div className="space-y-2 border-t border-card-border pt-3">
-          <p className="text-xs text-muted font-mono">ВЫБЕРИ ОТВЕТ:</p>
+        <div className="space-y-2 pt-3">
+          <p className="text-xs text-muted font-mono px-1">ВЫБЕРИ ОТВЕТ:</p>
           {currentChoices.map((choice, i) => (
             <button
               key={i}
               onClick={() => handleChoice(choice)}
-              className="w-full text-left p-3 rounded-btn border border-card-border bg-background hover:border-accent/50 transition-all text-sm"
+              className="w-full text-left p-3 rounded-xl bg-background/50 hover:bg-accent/5 transition-all text-sm border border-transparent hover:border-accent/30"
             >
               {choice.text}
             </button>
@@ -180,7 +201,7 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
       )}
 
       {finished && (
-        <div className="space-y-3 border-t border-card-border pt-3">
+        <div className="space-y-3 pt-3">
           <Card className="bg-accent/5 border-accent/20">
             <div className="text-center">
               <p className="text-sm font-semibold mb-1">
