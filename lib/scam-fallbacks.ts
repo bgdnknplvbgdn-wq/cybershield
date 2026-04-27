@@ -51,11 +51,40 @@ const fallbacksByScenario: Record<ScamScenarioId, string[]> = {
   classmate: classmateFallbacks,
 };
 
+function getContextualFallback(scenarioId: ScamScenarioId, userMessage: string): string | null {
+  const lower = userMessage.toLowerCase();
+
+  if (scenarioId === "bank") {
+    if (lower.includes("перезвон") || lower.includes("сам позвон")) return "Горячая линия перегружена, ожидание 40 минут. А средства могут списать в ближайшие 5 минут. Я звоню с защищённой линии — давайте решим вопрос сейчас.";
+    if (lower.includes("мошенни") || lower.includes("обман")) return "Я понимаю вашу осторожность — сейчас действительно много мошенников. Запишите номер обращения 7829 и проверьте потом. Но сейчас нужно действовать, иначе деньги спишут.";
+    if (lower.includes("договор") || lower.includes("номер счёт")) return "К сожалению, по правилам безопасности я вижу только последние 4 цифры вашего счёта. Именно поэтому мне нужно подтверждение с вашей стороны.";
+  }
+  if (scenarioId === "email") {
+    if (lower.includes("не заказ") || lower.includes("не жду")) return "Посылку мог отправить кто-то из ваших близких как сюрприз. Такое часто бывает. Отправитель — физическое лицо из Германии. Давайте проверим по вашим данным.";
+    if (lower.includes("сайт") || lower.includes("провер")) return "К сожалению, сайт на техобслуживании до следующей недели. А посылку вернут завтра. Давайте оформим оплату сейчас, и я вышлю квитанцию на email.";
+  }
+  if (scenarioId === "intercom") {
+    if (lower.includes("документ") || lower.includes("разрешен")) return "Все документы у бригадира — он приедет с мастерами. Я только составляю график установки. Подскажите удобное время?";
+    if (lower.includes("жэс") || lower.includes("проверю")) return "Конечно, проверяйте! Решение уже принято. Но запись заканчивается сегодня, завтра мы будем в другом районе.";
+  }
+  if (scenarioId === "classmate") {
+    if (lower.includes("как тебя зовут") || lower.includes("кто ты")) return "Ну ты даёшь, не узнаёшь! Мы же за одной партой сидели! Ладно, потом напомню — сейчас мне реально нужна помощь, я в беде.";
+    if (lower.includes("полици") || lower.includes("милици")) return "Уже обратился, заявление приняли. Но пока рассмотрят — мне тут ночевать негде и есть нечего. Просто одолжи немного, я всё верну!";
+    if (lower.includes("соцсет") || lower.includes("вконтакт") || lower.includes("инстаграм")) return "Аккаунт взломали — именно поэтому и пишу с чужого номера. Всё связано: сначала соцсети, потом телефон. Помоги, пожалуйста, я в отчаянии!";
+  }
+
+  if (lower.includes("нет") || lower.includes("не буду") || lower.includes("отказ")) return null;
+  return null;
+}
+
 export function getFallbackResponse(
   scenarioId: ScamScenarioId,
-  _userMessage: string,
+  userMessage: string,
   messageIndex: number
 ): string {
+  const contextual = getContextualFallback(scenarioId, userMessage);
+  if (contextual) return contextual;
+
   const responses = fallbacksByScenario[scenarioId];
   const idx = Math.min(messageIndex, responses.length - 1);
   return responses[idx];

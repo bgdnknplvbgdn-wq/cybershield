@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Shield, Terminal, Zap, ChevronRight } from "lucide-react";
+import { Shield, Terminal, Zap, ChevronRight, Bot } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
@@ -97,8 +97,25 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* ScamBY Bot link */}
+        <a
+          href="https://t.me/ScamBY_bot1"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 card-base py-3 px-4 flex items-center gap-3 max-w-sm mx-auto hover:border-neon-blue/40 transition-all group cursor-pointer"
+        >
+          <div className="w-10 h-10 rounded-xl bg-neon-blue/10 border border-neon-blue/30 flex items-center justify-center shrink-0 group-hover:bg-neon-blue/20 transition-all">
+            <Bot size={20} className="text-neon-blue" />
+          </div>
+          <div className="text-left">
+            <p className="text-xs font-bold font-cyber tracking-wider text-neon-blue">SCAMBY BOT</p>
+            <p className="text-[10px] text-muted font-mono">Проверяй ресурсы на мошенничество в Telegram</p>
+          </div>
+          <ChevronRight size={16} className="text-muted ml-auto shrink-0 group-hover:text-neon-blue transition-colors" />
+        </a>
+
         {/* Author and hashtag */}
-        <div className="mt-8 space-y-1">
+        <div className="mt-6 space-y-1">
           <p className="text-accent/60 text-xs font-mono">
             #КиберПраво
           </p>
