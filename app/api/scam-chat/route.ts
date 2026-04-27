@@ -11,9 +11,9 @@ interface ChatMessage {
 const VALID_SCENARIOS: ScamScenarioId[] = ["bank", "email", "intercom", "classmate"];
 
 const AI_MODELS = [
+  "minimax/minimax-m2.5:free",
   "google/gemma-3-4b-it:free",
   "meta-llama/llama-3.1-8b-instruct:free",
-  "mistralai/mistral-small-3.1-24b-instruct:free",
 ];
 
 async function tryAIModel(

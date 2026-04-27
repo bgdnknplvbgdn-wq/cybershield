@@ -94,6 +94,40 @@ const KEYWORDS = [
   "криптовалют.*мошен",
   "крючок.*злоумышленник",
   "безопасност.*сет",
+  "завладел.*деньг",
+  "завладел.*средств",
+  "лишил.*деньг",
+  "лишил.*средств",
+  "перечислил.*незнаком",
+  "перечислил.*мошен",
+  "перевёл.*деньги.*мошен",
+  "перевел.*деньги.*мошен",
+  "карточ.*мошен",
+  "интернет.*преступ",
+  "мошенническ",
+  "противоправн.*схем",
+  "преступн.*схем",
+  "уловк.*мошен",
+  "жулик",
+  "злоумышленник",
+  "финансов.*пирамид",
+  "лже.*банк",
+  "лже.*милиц",
+  "лже.*покупатель",
+  "лже.*продавец",
+  "под предлогом",
+  "поддельн.*приложен",
+  "удалённ.*доступ",
+  "удаленн.*доступ",
+  "AnyDesk",
+  "TeamViewer",
+  "инвестиц.*обман",
+  "трейдинг.*обман",
+  "Форекс.*мошен",
+  "торговл.*площадк.*обман",
+  "Куфар.*мошен",
+  "кардинг",
+  "банковск.*мошен",
 ];
 
 const KEYWORDS_REGEX = new RegExp(KEYWORDS.join("|"), "i");
@@ -117,6 +151,14 @@ const EXCLUDE_KEYWORDS = [
   "экосистем",
   "форум.*здравоохранен",
   "онколог",
+  "вакцин",
+  "концерт",
+  "выставк",
+  "театр",
+  "кино",
+  "фильм",
+  "праздник",
+  "юбилей",
 ];
 
 const EXCLUDE_REGEX = new RegExp(EXCLUDE_KEYWORDS.join("|"), "i");
@@ -177,10 +219,14 @@ function extractRssItems(xml: string, source: string): NewsItem[] {
 
 async function fetchFeed(url: string, source: string): Promise<NewsItem[]> {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
     const res = await fetch(url, {
-      next: { revalidate: 1800 },
-      headers: { "User-Agent": "CyberRubezh/1.0 (Educational)" },
+      next: { revalidate: 900 },
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; CyberRubezh/1.0; Educational)" },
+      signal: controller.signal,
     });
+    clearTimeout(timeout);
     if (!res.ok) return [];
     const xml = await res.text();
     return extractRssItems(xml, source);
@@ -192,24 +238,34 @@ async function fetchFeed(url: string, source: string): Promise<NewsItem[]> {
 export async function GET() {
   const feeds = [
     { url: "https://belta.by/rss", source: "БелТА" },
+    { url: "https://www.belta.by/rss/incident/", source: "БелТА Происшествия" },
     { url: "https://mvd.gov.by/ru/rss", source: "МВД РБ" },
+    { url: "https://minsknews.by/feed/", source: "Минск-Новости" },
     { url: "https://www.sb.by/rss/", source: "СБ Беларусь сегодня" },
     { url: "https://ont.by/rss", source: "ОНТ" },
-    { url: "https://mpt.gov.by/ru/rss", source: "Минсвязи РБ" },
+    { url: "https://www.tvr.by/rss/", source: "БелТелерадио" },
+    { url: "https://www.21.by/rss/", source: "21.by" },
   ];
 
   const results = await Promise.all(
     feeds.map((f) => fetchFeed(f.url, f.source))
   );
 
+  const seen = new Set<string>();
   const allNews = results
     .flat()
+    .filter((item) => {
+      const key = item.title.toLowerCase().trim();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
     .sort((a, b) => {
       const da = a.date ? new Date(a.date).getTime() : 0;
       const db = b.date ? new Date(b.date).getTime() : 0;
       return db - da;
     })
-    .slice(0, 50);
+    .slice(0, 30);
 
   return NextResponse.json({ news: allNews, fetchedAt: new Date().toISOString() });
 }
