@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, Badge } from "@/components/shared";
-import { Shield, Heart, Scale, Users, ExternalLink, User, Code } from "lucide-react";
+import { Shield, Heart, Scale, Users, ExternalLink, User, Code, Bot, CheckCircle2, Send } from "lucide-react";
 
 export default function AboutPage() {
   return (
@@ -50,6 +50,53 @@ export default function AboutPage() {
           с ИИ-мошенником позволяет отработать навыки противодействия телефонным и
           интернет-мошенникам в безопасной среде.
         </p>
+      </Card>
+
+      {/* ScamBY Bot */}
+      <Card className="mb-4" glow="accent">
+        <h2 className="font-bold text-sm mb-3 flex items-center gap-2 font-cyber tracking-wider uppercase">
+          <Bot size={18} className="text-neon-blue" />
+          Telegram-бот ScamBY
+          <Badge variant="accent" className="ml-auto text-[9px]">
+            <CheckCircle2 size={10} className="mr-0.5" />
+            ОФИЦИАЛЬНЫЙ
+          </Badge>
+        </h2>
+        <p className="text-xs text-muted leading-relaxed font-mono">
+          <span className="text-accent font-semibold">ScamBY</span> — официальный Telegram-бот для проверки
+          интернет-ресурсов на мошенничество. Проверяй Instagram, Telegram, TikTok аккаунты
+          и сайты — бот покажет, есть ли ресурс в базе мошенников.
+        </p>
+        <p className="text-xs text-muted leading-relaxed mt-2 font-mono">
+          Разработчик: <span className="text-accent font-semibold">Коноплёв Богдан Михайлович</span>
+        </p>
+        <div className="mt-3 space-y-2">
+          <div className="text-xs text-muted font-mono">
+            <span className="text-accent">Возможности:</span>
+          </div>
+          <ul className="space-y-1.5">
+            {[
+              "Проверка ссылок, доменов и аккаунтов по базе мошенников",
+              "Отправка жалоб на подозрительные ресурсы",
+              "Система баллов за подтверждённые жалобы",
+              "Поддержка Instagram, Telegram, TikTok и сайтов",
+            ].map((feature) => (
+              <li key={feature} className="text-xs text-muted flex items-start gap-2 font-mono">
+                <span className="text-accent mt-0.5">▸</span>
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <a
+          href="https://t.me/ScamBY_bot1"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary w-full mt-4 flex items-center justify-center gap-2 text-sm"
+        >
+          <Send size={16} />
+          <span className="font-cyber tracking-wider">ОТКРЫТЬ В TELEGRAM</span>
+        </a>
       </Card>
 
       {/* Contest organizers */}

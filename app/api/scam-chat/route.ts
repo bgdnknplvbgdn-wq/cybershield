@@ -79,9 +79,22 @@ export async function POST(req: NextRequest) {
 
   const scamPrompt = getScamPrompt(scenarioId);
 
+  const conversationMessages = messages.filter((m) => m.role === "user" || m.role === "assistant");
+  const lastUserMessage = conversationMessages.filter((m) => m.role === "user").pop()?.content || "";
+  const messageNum = conversationMessages.filter((m) => m.role === "user").length;
+
+  const contextReminder = `НАПОМИНАНИЕ: Пользователь написал: "${lastUserMessage}"
+Это сообщение №${messageNum}. Ты ОБЯЗАН ответить КОНКРЕТНО на это сообщение.
+- Если это вопрос — дай уклончивый ответ именно на ЭТОТ вопрос.
+- Если это отказ — смени тактику манипуляции на ДРУГУЮ (не повторяй предыдущую).
+- Если пользователь упомянул что-то новое — используй это.
+- НЕ повторяй то, что уже говорил. НЕ начинай с той же фразы, что и раньше.
+Отвечай 2-4 предложения на русском. Без markdown и смайликов.`;
+
   const apiMessages: ChatMessage[] = [
     { role: "system", content: scamPrompt.systemPrompt },
-    ...messages.filter((m) => m.role === "user" || m.role === "assistant"),
+    ...conversationMessages,
+    { role: "system", content: contextReminder },
   ];
 
   for (const model of AI_MODELS) {
