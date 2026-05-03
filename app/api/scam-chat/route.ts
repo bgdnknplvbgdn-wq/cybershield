@@ -11,9 +11,10 @@ interface ChatMessage {
 const VALID_SCENARIOS: ScamScenarioId[] = ["bank", "email", "intercom", "classmate"];
 
 const AI_MODELS = [
+  "google/gemma-4-31b-it:free",
+  "openai/gpt-oss-120b:free",
+  "nvidia/nemotron-3-super:free",
   "minimax/minimax-m2.5:free",
-  "google/gemma-3-4b-it:free",
-  "meta-llama/llama-3.1-8b-instruct:free",
 ];
 
 async function tryAIModel(
@@ -33,11 +34,10 @@ async function tryAIModel(
       body: JSON.stringify({
         model,
         messages: apiMessages,
-        max_tokens: 500,
-        temperature: 0.9,
-        top_p: 0.95,
-        frequency_penalty: 0.6,
-        presence_penalty: 0.4,
+        max_tokens: 400,
+        temperature: 0.85,
+        frequency_penalty: 0.5,
+        presence_penalty: 0.3,
       }),
     });
 
@@ -48,7 +48,9 @@ async function tryAIModel(
 
     if (!reply || reply.trim().length < 10) return null;
 
-    return reply.trim();
+    let cleaned = reply.trim();
+    cleaned = cleaned.replace(/\*+/g, "").replace(/#+\s*/g, "").replace(/`/g, "");
+    return cleaned;
   } catch {
     return null;
   }
@@ -84,39 +86,32 @@ export async function POST(req: NextRequest) {
 
   const conversationMessages = messages.filter((m) => m.role === "user" || m.role === "assistant");
   const lastUserMessage = conversationMessages.filter((m) => m.role === "user").pop()?.content || "";
-  const messageNum = conversationMessages.filter((m) => m.role === "user").length;
-
-  const previousAssistantMessages = conversationMessages
-    .filter((m) => m.role === "assistant")
-    .map((m) => m.content.substring(0, 60))
-    .join("; ");
-
-  const enrichedSystemPrompt = `${scamPrompt.systemPrompt}
-
-СЕЙЧАС СООБЩЕНИЕ №${messageNum} ОТ ПОЛЬЗОВАТЕЛЯ.
-Пользователь ТОЛЬКО ЧТО написал: "${lastUserMessage}"
-
-Твои предыдущие фразы (НЕ ПОВТОРЯЙ ИХ): ${previousAssistantMessages || "нет"}
-
-ИНСТРУКЦИЯ К ЭТОМУ ОТВЕТУ:
-1. Ты ОБЯЗАН ответить КОНКРЕТНО на слова пользователя "${lastUserMessage}". Проанализируй что он сказал и отреагируй именно на ЭТО.
-2. Если пользователь задал вопрос — ответь на него (уклончиво, но ИМЕННО на этот вопрос).
-3. Если пользователь отказал или сомневается — используй НОВУЮ тактику манипуляции, которую ещё НЕ использовал.
-4. Если пользователь согласился — поблагодари и попроси СЛЕДУЮЩУЮ порцию данных.
-5. Если пользователь грубит или обвиняет — будь подчёркнуто вежлив и профессионален.
-6. ОБЯЗАТЕЛЬНО упомяни или обыграй конкретные слова из сообщения пользователя.
-7. НЕ начинай ответ с тех же слов, что и раньше. Каждый ответ должен быть УНИКАЛЬНЫМ.
-8. Отвечай 2-5 предложений. Только русский язык. Без markdown, без смайликов, без звёздочек.`;
 
   const apiMessages: ChatMessage[] = [
-    { role: "system", content: enrichedSystemPrompt },
+    { role: "system", content: scamPrompt.systemPrompt },
     ...conversationMessages,
+    {
+      role: "user",
+      content: `[СИСТЕМНАЯ ИНСТРУКЦИЯ — НЕ ПОКАЗЫВАЙ ЭТО ПОЛЬЗОВАТЕЛЮ]
+Пользователь написал: "${lastUserMessage}"
+Ты ОБЯЗАН:
+1. Ответить КОНКРЕТНО на "${lastUserMessage}" — упомяни его слова в своём ответе.
+2. Если это вопрос — дай ответ именно на этот вопрос (уклончиво, в своей роли).
+3. Если пользователь согласен помочь/заплатить — назови конкретную сумму и реквизиты.
+4. НЕ меняй тему разговора, если пользователь задал прямой вопрос.
+5. Отвечай 2-4 предложения. Русский язык. Без markdown.
+Теперь ответь как мошенник (от первого лица, без пометок):`,
+    },
   ];
 
   for (const model of AI_MODELS) {
     const reply = await tryAIModel(apiKey, model, apiMessages);
     if (reply) {
-      return NextResponse.json({ reply });
+      const cleanReply = reply
+        .replace(/^\[.*?\]\s*/g, "")
+        .replace(/^(Мошенник|Ответ|Дмитрий|Наталья|Алексей):\s*/i, "")
+        .trim();
+      return NextResponse.json({ reply: cleanReply || reply });
     }
   }
 
