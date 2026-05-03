@@ -44,6 +44,11 @@ export default function RootLayout({
               <span className="text-gradient">КИБЕР</span>
               <span className="text-foreground">РУБЕЖ</span>
             </span>
+            <div className="ml-2 flex-1 max-w-xs hud-ticker opacity-30">
+              <span className="text-[10px] font-mono text-accent/60">
+                SYS.OK // THREAT_LVL: LOW // FIREWALL: ACTIVE // ENCRYPT: AES-256 // NET: SECURE //
+              </span>
+            </div>
             <div className="ml-auto flex items-center gap-4">
               <div className="terminal-header">
                 <span>v2.0</span>

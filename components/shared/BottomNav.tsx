@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Gamepad2, Newspaper, User, BookOpen, Info, Shield } from "lucide-react";
+import { Home, Gamepad2, Newspaper, User, BookOpen, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { playClick } from "@/lib/sounds";
 
 const navItems = [
   { href: "/", label: "ГЛАВНАЯ", icon: Home, exact: true },
@@ -22,7 +23,7 @@ export default function BottomNav() {
       <nav className="hidden md:flex fixed left-0 top-0 bottom-0 w-20 flex-col items-center py-6 bg-card/95 border-r border-card-border/50 z-50 backdrop-blur-md">
         <div className="mb-8">
           <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center neon-glow">
-            <Shield size={22} className="text-accent" />
+            <span className="text-accent font-cyber text-sm font-bold tracking-wider">КР</span>
           </div>
         </div>
         <div className="flex flex-col gap-1 flex-1 items-center justify-center">
@@ -33,6 +34,7 @@ export default function BottomNav() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={playClick}
                 className={cn(
                   "flex flex-col items-center gap-1 text-[10px] font-mono tracking-wider py-3 px-2 rounded-lg transition-all w-full relative",
                   isActive
@@ -51,7 +53,6 @@ export default function BottomNav() {
         </div>
         <div className="mt-auto flex flex-col items-center gap-2">
           <div className="w-px h-8 bg-gradient-to-b from-accent/30 to-transparent" />
-          <div className="w-2 h-2 rounded-full bg-accent animate-cyber-pulse" />
         </div>
       </nav>
 
@@ -65,6 +66,7 @@ export default function BottomNav() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={playClick}
                 className={cn(
                   "flex flex-col items-center gap-1 transition-all flex-1 py-2 relative",
                   isActive

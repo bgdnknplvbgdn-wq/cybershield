@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Shield, Terminal, Zap, ChevronRight, Search } from "lucide-react";
+import { playClick, playType } from "@/lib/sounds";
 
 export default function HomePage() {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function HomePage() {
     if (!showContent) return;
     let i = 0;
     const interval = setInterval(() => {
+      playType();
       setTypedText(fullText.slice(0, i + 1));
       i++;
       if (i >= fullText.length) clearInterval(interval);
@@ -35,8 +37,23 @@ export default function HomePage() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-neon-blue/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-accent/5 rounded-full" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-neon-blue/5 rounded-full" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-accent/5 rounded-full animate-spin-slow" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-neon-blue/5 rounded-full animate-spin-slow-reverse" />
+        {/* Floating particles */}
+        <div className="particle-field">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <div
+              key={i}
+              className="particle"
+              style={{
+                left: `${8 + i * 8}%`,
+                top: `${20 + (i % 5) * 15}%`,
+                animationDelay: `${i * 0.7}s`,
+                animationDuration: `${6 + (i % 4) * 2}s`,
+              }}
+            />
+          ))}
+        </div>
       </div>
 
       <div
@@ -44,12 +61,11 @@ export default function HomePage() {
           showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
-        {/* Shield logo with glow */}
+        {/* Shield logo with КР */}
         <div className="animate-float mb-8">
-          <div className="w-28 h-28 mx-auto rounded-2xl bg-accent/5 border border-accent/15 flex items-center justify-center neon-glow relative">
-            <Shield size={56} className="text-accent" />
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-cyber-pulse" />
-            <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-neon-blue rounded-full animate-cyber-pulse" style={{ animationDelay: "1s" }} />
+          <div className="w-24 h-24 mx-auto rounded-2xl bg-accent/5 border border-accent/15 flex flex-col items-center justify-center neon-glow">
+            <Shield size={36} className="text-accent mb-1" />
+            <span className="text-accent font-cyber text-xs font-bold tracking-widest">КР</span>
           </div>
         </div>
 
@@ -74,7 +90,7 @@ export default function HomePage() {
 
         {/* CTA Button */}
         <button
-          onClick={() => router.push("/missions")}
+          onClick={() => { playClick(); router.push("/missions"); }}
           className="btn-primary text-lg px-10 py-4 animate-pulse-glow font-cyber tracking-widest flex items-center gap-3 mx-auto"
         >
           <Zap size={20} />

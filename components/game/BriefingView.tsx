@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import type { BriefingStep } from "@/lib/scenario-types";
 import { Card } from "@/components/shared";
 import { BookOpen, ChevronRight, Info, AlertTriangle } from "lucide-react";
+import { playMissionStart } from "@/lib/sounds";
 
 interface BriefingViewProps {
   step: BriefingStep;
@@ -57,7 +58,7 @@ export function BriefingView({ step, onNext }: BriefingViewProps) {
         </Card>
       )}
 
-      <button onClick={onNext} className="btn-primary w-full flex items-center justify-center gap-2 mt-6 animate-slide-in-up" style={{ animationDelay: "0.5s" }}>
+      <button onClick={() => { playMissionStart(); onNext(); }} className="btn-primary w-full flex items-center justify-center gap-2 mt-6 animate-slide-in-up" style={{ animationDelay: "0.5s" }}>
         <span className="font-cyber tracking-wider">НАЧАТЬ МИССИЮ</span>
         <ChevronRight size={18} />
       </button>
