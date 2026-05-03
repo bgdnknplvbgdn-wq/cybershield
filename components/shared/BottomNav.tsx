@@ -21,8 +21,8 @@ export default function BottomNav() {
       {/* Desktop sidebar nav */}
       <nav className="hidden md:flex fixed left-0 top-0 bottom-0 w-20 flex-col items-center py-6 bg-card/95 border-r border-card-border/50 z-50 backdrop-blur-md">
         <div className="mb-8">
-          <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/30 flex items-center justify-center neon-glow clip-corner">
-            <span className="text-accent font-cyber text-sm font-bold">КР</span>
+          <div className="w-10 h-10 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center neon-glow">
+            <span className="text-gradient font-cyber text-sm font-bold">КР</span>
           </div>
         </div>
         <div className="flex flex-col gap-1 flex-1 items-center justify-center">

@@ -19,7 +19,7 @@ export default function MatrixRain() {
     resize();
     window.addEventListener("resize", resize);
 
-    const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+    const chars = "01{}[]<>/\\|#$%&@!?;:=+-*^~_.0xABCDEF48fe2d7a9c3b";
     const fontSize = 14;
     const columns = Math.floor(canvas.width / fontSize);
     const drops: number[] = Array(columns).fill(1);

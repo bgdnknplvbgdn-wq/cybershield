@@ -61,7 +61,7 @@ export default function FileScanner({ step, onComplete }: FileScannerProps) {
               key={i}
               onClick={() => handleScan(i)}
               disabled={isRevealed}
-              className={`w-full text-left p-3 rounded-lg border bg-card-alt transition-all ${borderClass} ${animClass} cyber-corners`}
+              className={`w-full text-left p-3 rounded-lg border bg-card-alt transition-all ${borderClass} ${animClass}`}
             >
               <div className="flex items-center gap-3">
                 <span className="text-xl">{file.icon}</span>

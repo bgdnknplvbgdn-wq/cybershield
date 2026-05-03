@@ -25,7 +25,7 @@ export function Card({
 
   return (
     <div
-      className={cn("card-base cyber-corners", glowClass, onClick && "cursor-pointer", className)}
+      className={cn("card-base", glowClass, onClick && "cursor-pointer", className)}
       onClick={onClick}
       style={style}
     >

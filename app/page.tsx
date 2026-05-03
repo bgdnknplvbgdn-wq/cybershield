@@ -44,11 +44,12 @@ export default function HomePage() {
           showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
-        {/* Shield icon with glow */}
+        {/* Shield logo with glow */}
         <div className="animate-float mb-8">
-          <div className="w-28 h-28 mx-auto rounded-2xl bg-accent/10 border border-accent/30 flex items-center justify-center neon-glow relative">
+          <div className="w-28 h-28 mx-auto rounded-2xl bg-accent/5 border border-accent/15 flex items-center justify-center neon-glow relative">
             <Shield size={56} className="text-accent" />
             <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full animate-cyber-pulse" />
+            <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-neon-blue rounded-full animate-cyber-pulse" style={{ animationDelay: "1s" }} />
           </div>
         </div>
 
