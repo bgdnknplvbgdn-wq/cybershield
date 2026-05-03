@@ -34,7 +34,7 @@ export default function MatrixRain() {
 
       for (let i = 0; i < drops.length; i++) {
         if (drops[i] * fontSize > 0) {
-          const brightness = 0.08 + Math.random() * 0.1;
+          const brightness = 0.09 + Math.random() * 0.11;
           ctx.fillStyle = `rgba(0, 255, 204, ${brightness})`;
           const char = chars[Math.floor(Math.random() * chars.length)];
           ctx.fillText(char, i * colGap + (colGap - fontSize) / 2, drops[i] * fontSize);
@@ -58,7 +58,7 @@ export default function MatrixRain() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-30"
+      className="fixed inset-0 pointer-events-none z-0 opacity-[0.33]"
     />
   );
 }

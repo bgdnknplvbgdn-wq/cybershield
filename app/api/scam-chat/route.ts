@@ -33,8 +33,11 @@ async function tryAIModel(
       body: JSON.stringify({
         model,
         messages: apiMessages,
-        max_tokens: 300,
-        temperature: 0.8,
+        max_tokens: 500,
+        temperature: 0.9,
+        top_p: 0.95,
+        frequency_penalty: 0.6,
+        presence_penalty: 0.4,
       }),
     });
 
@@ -83,18 +86,31 @@ export async function POST(req: NextRequest) {
   const lastUserMessage = conversationMessages.filter((m) => m.role === "user").pop()?.content || "";
   const messageNum = conversationMessages.filter((m) => m.role === "user").length;
 
-  const contextReminder = `НАПОМИНАНИЕ: Пользователь написал: "${lastUserMessage}"
-Это сообщение №${messageNum}. Ты ОБЯЗАН ответить КОНКРЕТНО на это сообщение.
-- Если это вопрос — дай уклончивый ответ именно на ЭТОТ вопрос.
-- Если это отказ — смени тактику манипуляции на ДРУГУЮ (не повторяй предыдущую).
-- Если пользователь упомянул что-то новое — используй это.
-- НЕ повторяй то, что уже говорил. НЕ начинай с той же фразы, что и раньше.
-Отвечай 2-4 предложения на русском. Без markdown и смайликов.`;
+  const previousAssistantMessages = conversationMessages
+    .filter((m) => m.role === "assistant")
+    .map((m) => m.content.substring(0, 60))
+    .join("; ");
+
+  const enrichedSystemPrompt = `${scamPrompt.systemPrompt}
+
+СЕЙЧАС СООБЩЕНИЕ №${messageNum} ОТ ПОЛЬЗОВАТЕЛЯ.
+Пользователь ТОЛЬКО ЧТО написал: "${lastUserMessage}"
+
+Твои предыдущие фразы (НЕ ПОВТОРЯЙ ИХ): ${previousAssistantMessages || "нет"}
+
+ИНСТРУКЦИЯ К ЭТОМУ ОТВЕТУ:
+1. Ты ОБЯЗАН ответить КОНКРЕТНО на слова пользователя "${lastUserMessage}". Проанализируй что он сказал и отреагируй именно на ЭТО.
+2. Если пользователь задал вопрос — ответь на него (уклончиво, но ИМЕННО на этот вопрос).
+3. Если пользователь отказал или сомневается — используй НОВУЮ тактику манипуляции, которую ещё НЕ использовал.
+4. Если пользователь согласился — поблагодари и попроси СЛЕДУЮЩУЮ порцию данных.
+5. Если пользователь грубит или обвиняет — будь подчёркнуто вежлив и профессионален.
+6. ОБЯЗАТЕЛЬНО упомяни или обыграй конкретные слова из сообщения пользователя.
+7. НЕ начинай ответ с тех же слов, что и раньше. Каждый ответ должен быть УНИКАЛЬНЫМ.
+8. Отвечай 2-5 предложений. Только русский язык. Без markdown, без смайликов, без звёздочек.`;
 
   const apiMessages: ChatMessage[] = [
-    { role: "system", content: scamPrompt.systemPrompt },
+    { role: "system", content: enrichedSystemPrompt },
     ...conversationMessages,
-    { role: "system", content: contextReminder },
   ];
 
   for (const model of AI_MODELS) {
