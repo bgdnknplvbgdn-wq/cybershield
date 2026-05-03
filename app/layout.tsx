@@ -8,7 +8,10 @@ export const metadata: Metadata = {
     "Интерактивная образовательная платформа по кибербезопасности. Автор: Коноплёв Богдан Михайлович",
   manifest: "/manifest.json",
   icons: {
-    icon: "/icon-192.png",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "32x32" },
+    ],
     apple: "/icon-192.png",
   },
 };

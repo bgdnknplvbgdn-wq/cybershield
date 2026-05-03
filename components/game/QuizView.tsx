@@ -29,7 +29,7 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
 
   return (
     <div className="space-y-4">
-      <Card className="cyber-corners">
+      <Card>
         <div className="flex items-start gap-2 mb-4">
           <HelpCircle size={18} className="text-accent shrink-0 mt-0.5" />
           <h3 className="font-semibold text-base">{step.question}</h3>
@@ -51,7 +51,7 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
             return (
               <button key={i} onClick={() => handleSelect(i)} className={cls} disabled={answered}>
                 <div className="flex items-center gap-3">
-                  <span className={`w-7 h-7 rounded border flex items-center justify-center text-xs font-mono shrink-0 clip-corner transition-all ${
+                  <span className={`w-7 h-7 rounded border flex items-center justify-center text-xs font-mono shrink-0 transition-all ${
                     answered && i === step.correctIndex
                       ? "border-success bg-success/20 text-success"
                       : answered && i === selected
@@ -75,7 +75,7 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
       </Card>
 
       {answered && (
-        <Card className={`animate-slide-in-up ${isCorrect ? "bg-success/5 border-success/20 cyber-corners" : "bg-error/5 border-error/20 cyber-corners"}`}>
+        <Card className={`animate-slide-in-up ${isCorrect ? "bg-success/5 border-success/20" : "bg-error/5 border-error/20"}`}>
           <div className="flex items-start gap-2">
             {isCorrect ? (
               <CheckCircle2 size={18} className="text-success shrink-0 mt-0.5" />
