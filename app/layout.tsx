@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
       { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "32x32" },
     ],
     apple: "/icon-192.png",
   },
@@ -40,7 +40,7 @@ export default function RootLayout({
         <ThemeProvider>
           <MatrixRain />
           <header className="hidden md:flex fixed top-0 left-20 right-0 h-14 items-center px-6 bg-card/90 backdrop-blur-md border-b border-card-border/50 z-40">
-            <span className="text-xl font-bold tracking-widest font-cyber glitch-text">
+            <span className="text-xl font-bold tracking-widest font-cyber glitch-text" data-text="КИБЕРРУБЕЖ">
               <span className="text-gradient">КИБЕР</span>
               <span className="text-foreground">РУБЕЖ</span>
             </span>

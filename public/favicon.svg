@@ -1,21 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <defs>
-    <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#00ffcc"/>
-      <stop offset="50%" stop-color="#00d4ff"/>
-      <stop offset="100%" stop-color="#00ff41"/>
-    </linearGradient>
-    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0a1628"/>
-      <stop offset="100%" stop-color="#050a0f"/>
+      <stop offset="100%" stop-color="#00d4ff"/>
     </linearGradient>
   </defs>
-  <!-- Background circle -->
-  <circle cx="32" cy="32" r="30" fill="url(#bgGrad)" stroke="url(#shieldGrad)" stroke-width="1.5"/>
-  <!-- Shield shape -->
-  <path d="M32 10 L48 18 L48 34 C48 44 40 52 32 56 C24 52 16 44 16 34 L16 18 Z" fill="none" stroke="url(#shieldGrad)" stroke-width="2" stroke-linejoin="round"/>
-  <!-- Inner shield fill -->
-  <path d="M32 14 L45 20.5 L45 33.5 C45 42 38.5 49 32 52.5 C25.5 49 19 42 19 33.5 L19 20.5 Z" fill="rgba(0,255,204,0.08)"/>
-  <!-- KP text -->
-  <text x="32" y="40" text-anchor="middle" font-family="monospace" font-weight="bold" font-size="16" fill="url(#shieldGrad)">KP</text>
+  <rect width="64" height="64" rx="14" fill="#050a0f"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="url(#g1)" stroke-width="1.5" opacity="0.4"/>
+  <path d="M32 10L48 18V34C48 44 40 52 32 56C24 52 16 44 16 34V18L32 10Z" fill="rgba(0,255,204,0.1)" stroke="url(#g1)" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M32 16L44 22V33C44 41 38.5 47.5 32 51C25.5 47.5 20 41 20 33V22L32 16Z" fill="rgba(0,255,204,0.05)"/>
+  <circle cx="32" cy="33" r="3" fill="#00ffcc"/>
+  <path d="M32 24V30" stroke="#00ffcc" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M32 36V38" stroke="#00ffcc" stroke-width="2" stroke-linecap="round"/>
+  <path d="M26 30L32 26L38 30" stroke="#00ffcc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5"/>
 </svg>
