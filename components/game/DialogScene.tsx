@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { DialogStep, DialogChoice } from "@/lib/scenario-types";
 import { Card, Badge } from "@/components/shared";
 import { Phone, CheckCircle2, XCircle, ChevronRight, Shield, Building2, UserCircle, Clock } from "lucide-react";
+import { playClick, playSuccess, playError, playNotification } from "@/lib/sounds";
 
 interface DialogSceneProps {
   step: DialogStep;
@@ -46,6 +47,7 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
     const msg = step.messages[idx];
 
     if (msg.sender === "caller") {
+      playNotification();
       setChatLog((prev) => [...prev, { sender: "caller", text: msg.text }]);
       const nextIdx = idx + 1;
       if (nextIdx < step.messages.length && step.messages[nextIdx].choices) {
@@ -75,7 +77,10 @@ export function DialogScene({ step, onComplete }: DialogSceneProps) {
 
     setTotalChoices((prev) => prev + 1);
     if (choice.correct) {
+      playSuccess();
       setCorrectCount((prev) => prev + 1);
+    } else {
+      playError();
     }
 
     setTimeout(() => {

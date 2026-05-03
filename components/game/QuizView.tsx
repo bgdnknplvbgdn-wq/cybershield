@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { QuizStep } from "@/lib/scenario-types";
 import { Card } from "@/components/shared";
 import { CheckCircle2, XCircle, ChevronRight, HelpCircle } from "lucide-react";
+import { playClick, playSuccess, playError } from "@/lib/sounds";
 
 interface QuizViewProps {
   step: QuizStep;
@@ -19,7 +20,10 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
     if (answered) return;
     setSelected(index);
     setAnswered(true);
-    if (index !== step.correctIndex) {
+    if (index === step.correctIndex) {
+      playSuccess();
+    } else {
+      playError();
       setShake(true);
       setTimeout(() => setShake(false), 600);
     }
@@ -92,7 +96,7 @@ export function QuizView({ step, onComplete }: QuizViewProps) {
 
       {answered && (
         <button
-          onClick={() => onComplete(isCorrect ? 1 : 0, 1)}
+          onClick={() => { playClick(); onComplete(isCorrect ? 1 : 0, 1); }}
           className="btn-primary w-full flex items-center justify-center gap-2 font-cyber tracking-wider animate-slide-in-up"
           style={{ animationDelay: "0.1s" }}
         >

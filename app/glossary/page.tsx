@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { Card, Badge } from "@/components/shared";
 import { Search, Database, ChevronDown, ChevronUp, Shuffle, BookOpen, Hash } from "lucide-react";
+import { playClick } from "@/lib/sounds";
 
 interface GlossaryTerm {
   term: string;
@@ -226,7 +227,7 @@ export default function GlossaryPage() {
               key={term.term}
               className={`p-3 cursor-pointer transition-all ${isExpanded ? "ring-1" : ""}`}
               style={isExpanded ? { borderColor: config.color + "60" } : undefined}
-              onClick={() => setExpandedTerm(isExpanded ? null : term.term)}
+              onClick={() => { playClick(); setExpandedTerm(isExpanded ? null : term.term); }}
             >
               <div id={`term-${term.term}`} className="flex items-start gap-3">
                 <div

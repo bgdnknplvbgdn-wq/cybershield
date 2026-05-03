@@ -7,6 +7,7 @@ import { scenarios } from "@/data/scenarios";
 import { getMissionTheme } from "@/lib/mission-themes";
 import { Shield, CheckCircle2, ChevronRight, Zap, Target } from "lucide-react";
 import { useEffect } from "react";
+import { playClick } from "@/lib/sounds";
 
 const difficultyLabel: Record<
   number,
@@ -76,6 +77,7 @@ export default function MissionsPage() {
             <Link
               key={scenario.id}
               href={`/missions/${scenario.id}`}
+              onClick={playClick}
               className="block group"
             >
               <Card

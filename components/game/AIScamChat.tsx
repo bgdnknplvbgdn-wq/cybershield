@@ -24,6 +24,7 @@ import {
   Clock,
 } from "lucide-react";
 import type { ScamScenarioId } from "@/lib/scenario-types";
+import { playClick, playNotification } from "@/lib/sounds";
 
 interface AIScamChatProps {
   step: AIScamChatStep;
@@ -156,6 +157,7 @@ export function AIScamChat({ step, onComplete }: AIScamChatProps) {
     const text = input.trim();
     if (!text || loading || finished) return;
 
+    playClick();
     setInput("");
     setShowSuggestions(false);
     const newMessageCount = messageCount + 1;
@@ -188,6 +190,7 @@ export function AIScamChat({ step, onComplete }: AIScamChatProps) {
       setApiMessages(newApi);
       const reply = await sendToAI(newApi);
       const tactic = detectTactic(reply);
+      playNotification();
       setMessages((prev) => [...prev, { sender: "scammer", text: reply, tactic }]);
       if (tactic) setTacticsFound((prev) => prev.includes(tactic) ? prev : [...prev, tactic]);
       setApiMessages((prev) => [...prev, { role: "assistant", content: reply }]);

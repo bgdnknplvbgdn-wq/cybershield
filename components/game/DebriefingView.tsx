@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import type { DebriefingStep } from "@/lib/scenario-types";
 import { Card } from "@/components/shared";
 import { Trophy, Shield, Scale, Lightbulb, ChevronRight, Award, Star } from "lucide-react";
+import { playMissionComplete, playClick } from "@/lib/sounds";
 
 interface DebriefingViewProps {
   step: DebriefingStep;
@@ -31,6 +32,7 @@ export function DebriefingView({ step, onNext, xpReward = 10 }: DebriefingViewPr
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
+    playMissionComplete();
     const t = setTimeout(() => setShowContent(true), 300);
     return () => clearTimeout(t);
   }, []);
@@ -90,7 +92,7 @@ export function DebriefingView({ step, onNext, xpReward = 10 }: DebriefingViewPr
             </ul>
           </Card>
 
-          <button onClick={onNext} className="btn-primary w-full flex items-center justify-center gap-2 mt-4 animate-slide-in-up" style={{ animationDelay: "0.4s" }}>
+          <button onClick={() => { playClick(); onNext(); }} className="btn-primary w-full flex items-center justify-center gap-2 mt-4 animate-slide-in-up" style={{ animationDelay: "0.4s" }}>
             <span className="font-cyber tracking-wider">ЗАВЕРШИТЬ МИССИЮ</span>
             <ChevronRight size={18} />
           </button>

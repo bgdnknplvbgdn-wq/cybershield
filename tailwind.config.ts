@@ -58,6 +58,8 @@ const config: Config = {
         "border-flow": "borderFlow 3s linear infinite",
         "text-flicker": "textFlicker 4s linear infinite",
         "matrix-fall": "matrixFall 20s linear infinite",
+        "spin-slow": "spin 30s linear infinite",
+        "spin-slow-reverse": "spin 25s linear infinite reverse",
       },
     },
   },
