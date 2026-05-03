@@ -11,14 +11,15 @@ function getCtx(): AudioContext | null {
   return ctx;
 }
 
-function beep(freq: number, duration: number, type: OscillatorType = "sine", volume = 0.08) {
+function softTone(freq: number, duration: number, volume = 0.03) {
   const c = getCtx();
   if (!c) return;
   const osc = c.createOscillator();
   const gain = c.createGain();
-  osc.type = type;
+  osc.type = "sine";
   osc.frequency.setValueAtTime(freq, c.currentTime);
-  gain.gain.setValueAtTime(volume, c.currentTime);
+  gain.gain.setValueAtTime(0, c.currentTime);
+  gain.gain.linearRampToValueAtTime(volume, c.currentTime + 0.02);
   gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + duration);
   osc.connect(gain);
   gain.connect(c.destination);
@@ -27,48 +28,42 @@ function beep(freq: number, duration: number, type: OscillatorType = "sine", vol
 }
 
 export function playClick() {
-  beep(800, 0.06, "square", 0.04);
+  softTone(600, 0.08, 0.02);
 }
 
 export function playHover() {
-  beep(600, 0.03, "sine", 0.02);
+  softTone(500, 0.05, 0.01);
 }
 
 export function playSuccess() {
-  const c = getCtx();
-  if (!c) return;
-  setTimeout(() => beep(523, 0.12, "sine", 0.06), 0);
-  setTimeout(() => beep(659, 0.12, "sine", 0.06), 100);
-  setTimeout(() => beep(784, 0.2, "sine", 0.06), 200);
+  setTimeout(() => softTone(440, 0.2, 0.025), 0);
+  setTimeout(() => softTone(554, 0.2, 0.025), 120);
+  setTimeout(() => softTone(659, 0.3, 0.03), 240);
 }
 
 export function playError() {
-  beep(200, 0.25, "sawtooth", 0.05);
+  softTone(180, 0.35, 0.02);
 }
 
 export function playNotification() {
-  setTimeout(() => beep(880, 0.08, "sine", 0.05), 0);
-  setTimeout(() => beep(1100, 0.12, "sine", 0.05), 80);
+  setTimeout(() => softTone(700, 0.12, 0.02), 0);
+  setTimeout(() => softTone(880, 0.15, 0.02), 100);
 }
 
 export function playType() {
-  beep(1200 + Math.random() * 400, 0.02, "square", 0.015);
+  softTone(800 + Math.random() * 200, 0.03, 0.008);
 }
 
 export function playMissionStart() {
-  const c = getCtx();
-  if (!c) return;
-  setTimeout(() => beep(440, 0.1, "sine", 0.06), 0);
-  setTimeout(() => beep(554, 0.1, "sine", 0.06), 100);
-  setTimeout(() => beep(659, 0.1, "sine", 0.06), 200);
-  setTimeout(() => beep(880, 0.25, "sine", 0.08), 300);
+  setTimeout(() => softTone(392, 0.15, 0.025), 0);
+  setTimeout(() => softTone(494, 0.15, 0.025), 130);
+  setTimeout(() => softTone(587, 0.15, 0.025), 260);
+  setTimeout(() => softTone(784, 0.3, 0.03), 390);
 }
 
 export function playMissionComplete() {
-  const c = getCtx();
-  if (!c) return;
-  setTimeout(() => beep(523, 0.15, "sine", 0.07), 0);
-  setTimeout(() => beep(659, 0.15, "sine", 0.07), 120);
-  setTimeout(() => beep(784, 0.15, "sine", 0.07), 240);
-  setTimeout(() => beep(1047, 0.3, "sine", 0.09), 360);
+  setTimeout(() => softTone(440, 0.2, 0.025), 0);
+  setTimeout(() => softTone(554, 0.2, 0.025), 150);
+  setTimeout(() => softTone(659, 0.2, 0.025), 300);
+  setTimeout(() => softTone(880, 0.4, 0.03), 450);
 }
