@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, Badge } from "@/components/shared";
-import { Shield, Heart, Scale, Users, ExternalLink, User, Code, Bot, CheckCircle2, Send } from "lucide-react";
+import { Shield, Scale, Users, ExternalLink, User, Code, Search, CheckCircle2, Send, Bot } from "lucide-react";
 
 export default function AboutPage() {
   return (
@@ -41,8 +41,8 @@ export default function AboutPage() {
           О проекте
         </h2>
         <p className="text-xs text-muted leading-relaxed font-mono">
-          «КИБЕРРУБЕЖ» — интерактивная образовательная платформа по кибербезопасности для граждан
-          Республики Беларусь. Платформа обучает распознаванию фишинга, социальной инженерии,
+          «КИБЕРРУБЕЖ» — интерактивная образовательная платформа по кибербезопасности.
+          Платформа обучает распознаванию фишинга, социальной инженерии,
           вирусов-вымогателей и других киберугроз через интерактивные сценарии и мини-игры.
         </p>
         <p className="text-xs text-muted leading-relaxed mt-3 font-mono">
@@ -52,44 +52,48 @@ export default function AboutPage() {
         </p>
       </Card>
 
-      {/* ScamBY Bot */}
+      {/* Проверь.бел */}
       <Card className="mb-4" glow="accent">
         <h2 className="font-bold text-sm mb-3 flex items-center gap-2 font-cyber tracking-wider uppercase">
-          <Bot size={18} className="text-neon-blue" />
-          Telegram-бот ScamBY
+          <Search size={18} className="text-neon-blue" />
+          Проверь.бел
           <Badge variant="accent" className="ml-auto text-[9px]">
             <CheckCircle2 size={10} className="mr-0.5" />
             ОФИЦИАЛЬНЫЙ
           </Badge>
         </h2>
         <p className="text-xs text-muted leading-relaxed font-mono">
-          <span className="text-accent font-semibold">ScamBY</span> — официальный Telegram-бот для проверки
-          интернет-ресурсов на мошенничество. Проверяй Instagram, Telegram, TikTok аккаунты
-          и сайты — бот покажет, есть ли ресурс в базе мошенников.
+          <span className="text-accent font-semibold">Проверь.бел</span> — официальный сервис
+          Следственного комитета Республики Беларусь для проверки аккаунтов и интернет-ресурсов
+          на мошенничество.
+        </p>
+        <a
+          href="https://xn--b1agzdfd8f.xn--90ais/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary w-full mt-4 flex items-center justify-center gap-2 text-sm"
+        >
+          <ExternalLink size={16} />
+          <span className="font-cyber tracking-wider">ПЕРЕЙТИ НА ПРОВЕРЬ.БЕЛ</span>
+        </a>
+      </Card>
+
+      {/* ScamBY Bot */}
+      <Card className="mb-4">
+        <h2 className="font-bold text-sm mb-3 flex items-center gap-2 font-cyber tracking-wider uppercase">
+          <Bot size={18} className="text-neon-blue" />
+          Telegram-бот ScamBY
+        </h2>
+        <p className="text-xs text-muted leading-relaxed font-mono">
+          <span className="text-accent font-semibold">@ScamBY_bot</span> — чат-бот в Telegram
+          для проверки подозрительных аккаунтов и сайтов на мошенничество.
+          Поддерживает Instagram, Telegram, TikTok и интернет-сайты.
         </p>
         <p className="text-xs text-muted leading-relaxed mt-2 font-mono">
-          Разработчик: <span className="text-accent font-semibold">Коноплёв Богдан Михайлович</span>
+          Разработчик: <span className="text-accent font-semibold">ГУВД Мингорисполкома</span>
         </p>
-        <div className="mt-3 space-y-2">
-          <div className="text-xs text-muted font-mono">
-            <span className="text-accent">Возможности:</span>
-          </div>
-          <ul className="space-y-1.5">
-            {[
-              "Проверка ссылок, доменов и аккаунтов по базе мошенников",
-              "Отправка жалоб на подозрительные ресурсы",
-              "Система баллов за подтверждённые жалобы",
-              "Поддержка Instagram, Telegram, TikTok и сайтов",
-            ].map((feature) => (
-              <li key={feature} className="text-xs text-muted flex items-start gap-2 font-mono">
-                <span className="text-accent mt-0.5">▸</span>
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
         <a
-          href="https://t.me/ScamBY_bot1"
+          href="https://t.me/ScamBY_bot"
           target="_blank"
           rel="noopener noreferrer"
           className="btn-primary w-full mt-4 flex items-center justify-center gap-2 text-sm"
@@ -135,7 +139,7 @@ export default function AboutPage() {
             "Закон РБ «О защите персональных данных» № 99-З от 07.05.2021",
             "Закон РБ «Об информации, информатизации и защите информации» № 455-З от 10.11.2008",
             "Уголовный кодекс РБ, глава 31 (ст. 349-350, 354)",
-            "Закон РБ «Об электронном документе и электронной цифровой подписи» № 113-З",
+            "Закон РБ «Об электронном документе и электронной цифровой подписи» № 113-З от 28.12.2009",
             "Декрет №8 «О развитии цифровой экономики» от 21.12.2017",
           ].map((law) => (
             <li key={law} className="flex items-start gap-3">
