@@ -8,7 +8,7 @@ export default function AboutPage() {
     <div className="px-4 md:px-8 py-6 md:py-8 max-w-3xl mx-auto">
       {/* Header */}
       <div className="text-center mb-8">
-        <div className="w-20 h-20 mx-auto rounded-2xl bg-accent/10 border border-accent/30 flex items-center justify-center mb-4 neon-glow">
+        <div className="w-20 h-20 mx-auto rounded-2xl bg-accent/5 border border-accent/15 flex items-center justify-center mb-4 neon-glow">
           <Shield size={40} className="text-accent" />
         </div>
         <h1 className="text-3xl font-extrabold mb-2 font-cyber tracking-wider">

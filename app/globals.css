@@ -75,7 +75,7 @@
   /* ===== CARD SYSTEM ===== */
   .card-base {
     background: linear-gradient(145deg, rgba(10, 22, 40, 0.85), rgba(8, 18, 32, 0.65));
-    border: 1px solid rgba(15, 52, 96, 0.35);
+    border: 1px solid rgba(0, 255, 204, 0.08);
     border-radius: 12px;
     padding: 1.25rem;
     position: relative;
@@ -91,12 +91,12 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.25), transparent);
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.12), transparent);
   }
 
   .card-base:hover {
-    border-color: rgba(0, 255, 204, 0.2);
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.06);
+    border-color: rgba(0, 255, 204, 0.15);
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.04);
   }
 
   /* ===== BUTTONS ===== */
@@ -181,30 +181,7 @@
     background-clip: text;
   }
 
-  /* ===== CYBER CORNER DECORATIONS ===== */
-  .cyber-corners {
-    position: relative;
-  }
-  .cyber-corners::before,
-  .cyber-corners::after {
-    content: "";
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-color: rgba(0, 255, 204, 0.3);
-    border-style: solid;
-    pointer-events: none;
-  }
-  .cyber-corners::before {
-    top: -1px;
-    left: -1px;
-    border-width: 1px 0 0 1px;
-  }
-  .cyber-corners::after {
-    bottom: -1px;
-    right: -1px;
-    border-width: 0 1px 1px 0;
-  }
+
 
   /* ===== SCANLINE OVERLAY ===== */
   .scanline-overlay {

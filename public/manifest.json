@@ -4,8 +4,8 @@
   "description": "Интерактивная образовательная платформа по кибербезопасности. Автор: Коноплёв Богдан Михайлович",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A0E1A",
-  "theme_color": "#0066CC",
+  "background_color": "#050a0f",
+  "theme_color": "#00ffcc",
   "orientation": "portrait",
   "icons": [
     {
