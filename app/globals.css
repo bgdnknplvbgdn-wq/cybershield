@@ -307,16 +307,6 @@
   .glitch-text {
     animation: textFlicker 5s linear infinite;
   }
-  .glitch-text::before,
-  .glitch-text::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    overflow: hidden;
-    clip-path: inset(0);
-  }
   .glitch-text:hover {
     animation: glitch 0.4s linear;
   }
