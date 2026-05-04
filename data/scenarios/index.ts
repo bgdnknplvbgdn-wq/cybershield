@@ -505,7 +505,7 @@ export const scenarios: Scenario[] = [
         type: "cipher-puzzle",
         cipherType: "caesar",
         shift: 3,
-        encrypted: "НЛДИУ УЦДИЙ",
+        encrypted: "НЛДЗУ УЦДЗЙ",
         answer: "КИБЕР РУБЕЖ",
         hint: "Попробуй сдвинуть каждую букву на 3 назад в русском алфавите"
       },
